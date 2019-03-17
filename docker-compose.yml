@@ -1,0 +1,53 @@
+version: '3'
+services:
+  api:
+    container_name: unwind_api
+    build: ./server
+    command: npm start
+    restart: always
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules # https://stackoverflow.com/a/32785014
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "${API_PORT}:8080"
+      - "9229:9229"
+    networks:
+      - backend
+  
+  db:
+    container_name: unwind_db
+    image: postgres:11
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: unwind
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  adminer:
+    container_name: unwind_adminer
+    image: adminer
+    restart: always
+    ports:
+      - "${ADMINER_PORT}:8080"
+    networks:
+      - backend
+
+  redis:
+    image: redis:alpine
+    container_name: unwind_redis
+    ports: ["6379"]
+    networks:
+      - backend
+
+volumes:
+  postgres-data:
+    external: true # https://github.com/docker/for-win/issues/445#issuecomment-405185621
+
+networks:
+  backend:
