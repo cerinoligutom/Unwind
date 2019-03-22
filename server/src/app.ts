@@ -7,9 +7,21 @@ import express, { Request, Response, NextFunction } from 'express';
 
 import { initRoutes } from './routes';
 
+import knex from './db_pg/knex-config';
+
 const app = express();
 
 const startApp = async () => {
+  // Test postgres db
+  try {
+    await knex.raw('select 1+1 as result');
+    console.info('[OK] PG DB');
+  } catch (err) {
+    console.error('[FAIL] PG DB');
+    console.error(err);
+    return;
+  }
+
   app.use(cors());
   app.use(express.json());
   app.use(compression());
