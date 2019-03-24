@@ -16,7 +16,23 @@ services:
       - '9229:9229'
     networks:
       - backend
-  
+      - frontend
+
+  web:
+    container_name: unwind_web
+    build: ./web
+    command: npm start
+    restart: always
+    volumes: 
+      - ./web:/usr/src/app
+      - /usr/src/app/node_modules # https://stackoverflow.com/a/32785014
+    depends_on: 
+      - api
+    ports: 
+      - '3000:3000'
+    networks:
+      - frontend
+
   db:
     container_name: unwind_db
     image: postgres:11
@@ -54,3 +70,4 @@ volumes:
 
 networks:
   backend:
+  frontend:
