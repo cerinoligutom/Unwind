@@ -32,6 +32,8 @@ services:
       - '3000:3000'
     networks:
       - frontend
+    environment: 
+      - CHOKIDAR_USEPOLLING=true 
 
   db:
     container_name: unwind_db

@@ -1,0 +1,11 @@
+:root {
+  --border-color: white;
+  --border-radius: 0.25rem;
+  --spacer: 12px;
+}
+
+$background-color: #26262b;
+$spacer: var(--spacer);
+
+$border-style: 1px solid var(--border-color);
+$border-radius: var(--border-radius);
