@@ -57,7 +57,7 @@ services:
       - backend
     environment: 
       ADMINER_PLUGINS: 'tables-filter tinymce'
-      ADMINER_DESIGN: 'pepa-linha'
+      ADMINER_DESIGN: 'price'
 
   redis:
     image: redis:alpine
