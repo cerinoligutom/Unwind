@@ -18,14 +18,12 @@ export async function up(knex: Knex): Promise<any> {
         t.string('firstName').notNullable();
         t.string('middleName');
         t.string('lastName').notNullable();
-        t.string('username').notNullable();
+        t.string('username').unique().notNullable();
         t.string('avatarUrl');
         t.text('bio');
-        t.string('email').notNullable();
+        t.string('email').unique().notNullable();
         t.string('hash').notNullable();
         t.string('salt').notNullable();
-
-        t.unique(['email']);
       })
       .then(async () => {
         await addTimeStamps(knex, TABLE_NAME);
