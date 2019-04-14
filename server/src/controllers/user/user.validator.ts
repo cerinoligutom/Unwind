@@ -9,11 +9,23 @@ import {
   appendError,
 } from '@app/utils';
 
+// tslint:disable-next-line: no-shadowed-variable
 const checkIfEmailExists = async (email: string) => {
   const user = await User.query().findOne('email', email);
 
   if (user) {
-    return { key: 'email', message: 'Email is already in use.' } as IFormFieldValidationError;
+    return { key: 'email', message: 'Email is already taken.' } as IFormFieldValidationError;
+  }
+
+  return null;
+};
+
+// tslint:disable-next-line: no-shadowed-variable
+const checkIfUsernameExists = async (username: string) => {
+  const user = await User.query().findOne('username', username);
+
+  if (user) {
+    return { key: 'username', message: 'Username is already taken.' } as IFormFieldValidationError;
   }
 
   return null;
@@ -26,17 +38,21 @@ export const createUserForm = {
     const validator = createFormValidator<User>(createUserSchema);
     const result = await validator(data);
 
-    const emailIsAlreadyInUse = await checkIfEmailExists(data.email);
+    const emailIsAlreadyTaken = await checkIfEmailExists(data.email);
+    if (emailIsAlreadyTaken) {
+      result.errors = appendError(emailIsAlreadyTaken, result.errors);
+    }
 
-    if (emailIsAlreadyInUse) {
-      result.errors = appendError(emailIsAlreadyInUse, result.errors);
+    const usernameIsAlreadyTaken = await checkIfUsernameExists(data.username);
+    if (usernameIsAlreadyTaken) {
+      result.errors = appendError(usernameIsAlreadyTaken, result.errors);
     }
 
     return result;
   },
 };
 
-const updateUserSchemaMap = User.joiSchema;
+const { username, email, ...updateUserSchemaMap } = User.joiSchema;
 const updateUserSchema = Joi.object().keys(updateUserSchemaMap);
 export const updateUserForm = {
   validate: createUpdateFormValidator<User>(updateUserSchema, userService),
