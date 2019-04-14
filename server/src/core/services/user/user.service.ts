@@ -1,10 +1,13 @@
 import { User } from '@app/models';
 
 const getById = async (id: string) => {
-  let user = await User.query().findOne('username', id);
-
+  let user;
   if (!user) {
-    user = await User.query().findById(id);
+    try {
+      user = await User.query().findById(id);
+    } catch {
+      user = await User.query().findOne('username', id);
+    }
   }
 
   return user;
