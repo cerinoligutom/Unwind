@@ -1,8 +1,25 @@
 import { BaseModel } from './common/BaseModel';
 import Joi from 'joi';
+import { RelationMappings, Model } from 'objection';
+import { ConversationRoom } from './ConversationRoom.model';
 
 export class User extends BaseModel {
   static tableName = 'users';
+
+  static relationMappings: RelationMappings = {
+    conversationRooms: {
+      relation: Model.ManyToManyRelation,
+      modelClass: __dirname + '/ConversationRoom.model',
+      join: {
+        from: 'users.id',
+        through: {
+          from: 'user_conversation_rooms.userId',
+          to: 'user_conversation_rooms.conversationRoomId',
+        },
+        to: 'conversation_rooms.id',
+      },
+    },
+  };
 
   static joiSchema: Joi.SchemaMap = {
     id: Joi.string().required(),
@@ -64,4 +81,6 @@ export class User extends BaseModel {
 
   hash!: string;
   salt!: string;
+
+  conversationRooms?: ConversationRoom[];
 }
