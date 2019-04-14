@@ -33,6 +33,6 @@ export async function up(knex: Knex): Promise<any> {
 
 // tslint:disable-next-line: no-any
 export async function down(knex: Knex): Promise<any> {
-  await knex.raw('drop extension if exists "uuid-ossp"');
   await knex.schema.dropTableIfExists(TABLE_NAME);
+  await knex.raw('drop extension if exists "uuid-ossp"');
 }
