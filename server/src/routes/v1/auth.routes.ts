@@ -12,5 +12,6 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   asyncHandler(authController.isAuthenticated),
 );
+router.get('/me', passport.authenticate('jwt', { session: false }), asyncHandler(authController.me));
 
 export const authRouter = router;
