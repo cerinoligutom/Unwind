@@ -5,6 +5,8 @@ services:
     build: ./server
     command: npm start
     restart: always
+    environment:
+      - JWT_SECRET="${JWT_SECRET}"
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules # https://stackoverflow.com/a/32785014
