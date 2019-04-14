@@ -23,7 +23,9 @@ export class User extends BaseModel {
 
     username: Joi.string()
       .label('Username')
+      .regex(/^\S+$/)
       .min(1)
+      .trim()
       .required(),
 
     avatarUrl: Joi.string()
