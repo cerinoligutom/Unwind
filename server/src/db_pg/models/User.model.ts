@@ -2,6 +2,7 @@ import { BaseModel } from './common/BaseModel';
 import Joi from 'joi';
 import { RelationMappings, Model } from 'objection';
 import { ConversationRoom } from './ConversationRoom.model';
+const regexWebUrl = require('regex-weburl');
 
 export class User extends BaseModel {
   static tableName = 'users';
@@ -22,7 +23,9 @@ export class User extends BaseModel {
   };
 
   static joiSchema: Joi.SchemaMap = {
-    id: Joi.string().required(),
+    id: Joi.string()
+      .uuid()
+      .required(),
 
     firstName: Joi.string()
       .label('First Name')
@@ -47,6 +50,7 @@ export class User extends BaseModel {
 
     avatarUrl: Joi.string()
       .label('Avatar URL')
+      .regex(regexWebUrl)
       .allow('', null),
 
     bio: Joi.string()
