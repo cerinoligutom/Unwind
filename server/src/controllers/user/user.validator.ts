@@ -52,7 +52,7 @@ export const createUserForm = {
   },
 };
 
-const { username, email, ...updateUserSchemaMap } = User.joiSchema;
+const { username, email, hash, ...updateUserSchemaMap } = User.joiSchema;
 const updateUserSchema = Joi.object().keys(updateUserSchemaMap);
 export const updateUserForm = {
   validate: createUpdateFormValidator<User>(updateUserSchema, userService),
