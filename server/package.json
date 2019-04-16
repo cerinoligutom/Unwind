@@ -37,6 +37,7 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.16.3",
     "objection": "^1.6.7",
+    "objection-cursor": "^0.5.4",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
