@@ -27,6 +27,7 @@
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
+    "reactn": "^1.0.0",
     "styled-components": "^4.2.0",
     "typescript": "3.3.3333"
   },
