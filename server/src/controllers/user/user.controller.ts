@@ -11,6 +11,16 @@ const getById: RequestHandler = async (req, res) => {
   user ? res.send(user) : res.status(404).send();
 };
 
+const getConversationRooms: RequestHandler = async (req, res) => {
+  if (req.user) {
+    const conversationRooms = await userService.getConversationRooms(req.user.id);
+    res.send(conversationRooms);
+    return;
+  }
+
+  res.status(404).send();
+};
+
 const create: RequestHandler = async (req, res) => {
   const { errors, form } = await createUserForm.validate({ ...req.body });
 
@@ -45,6 +55,7 @@ const update: RequestHandler = async (req, res) => {
 
 export const userController = {
   getById,
+  getConversationRooms,
   create,
   update,
 };

@@ -13,6 +13,14 @@ const getById = async (id: string) => {
   return user;
 };
 
+const getConversationRooms = async (userId: string) => {
+  const user = await User.query()
+    .findById(userId)
+    .eager('conversationRooms');
+
+  return user ? user.conversationRooms : [];
+};
+
 const create = async (user: User) => {
   return User.query().insertAndFetch(user);
 };
@@ -23,6 +31,7 @@ const update = async (id: string, user: User) => {
 
 export const userService = {
   getById,
+  getConversationRooms,
   create,
   update,
 };

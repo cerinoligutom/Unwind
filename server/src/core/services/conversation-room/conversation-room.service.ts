@@ -1,7 +1,7 @@
 import { ConversationRoom } from '@app/models';
 
 const getById = async (id: string) => {
-  return ConversationRoom.query().findById(id);
+  return ConversationRoom.query().findById(id).eager('participants');
 };
 
 const create = async (conversationRoom: ConversationRoom) => {
