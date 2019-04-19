@@ -1,67 +1,52 @@
 import React from 'react';
-import { ISsoButtonProps } from '../../interfaces/ISsoButtonProps';
-import { SsoButton } from '../SsoButton/SsoButton';
 import { RouterProps } from 'react-router';
+import { Formik, FormikActions, FormikProps, Form, Field, ErrorMessage } from 'formik';
+import { authService } from '../../services/auth.service';
+
+interface ILoginFormValues {
+  email: string;
+  password: string;
+}
+
+const formInitialValues: ILoginFormValues = { email: '', password: '' };
 
 interface ILoginProps extends RouterProps {}
 
 export const Login = ({ history }: ILoginProps) => {
-  const ssoButtonData: ISsoButtonProps[] = [
-    {
-      text: 'Login with Facebook',
-      faIcon: 'fab fa-facebook-square',
-      backgroundColor: '',
-      onClick: () => {
-        history.push('/chat');
-      },
-    },
-    {
-      text: 'Login with Google',
-      faIcon: 'fab fa-google',
-      backgroundColor: '',
-      onClick: () => {
-        history.push('/chat');
-      },
-    },
-    {
-      text: 'Login with Microsoft',
-      faIcon: 'fab fa-windows',
-      backgroundColor: '',
-      onClick: () => {
-        history.push('/chat');
-      },
-    },
-    {
-      text: 'Login with Twitter',
-      faIcon: 'fab fa-twitter-square',
-      backgroundColor: '',
-      onClick: () => {
-        history.push('/chat');
-      },
-    },
-    {
-      text: 'Login with Steam',
-      faIcon: 'fab fa-steam-square',
-      backgroundColor: '',
-      onClick: () => {
-        history.push('/chat');
-      },
-    },
-    {
-      text: 'Login with Discord',
-      faIcon: 'fab fa-discord',
-      backgroundColor: '',
-      onClick: () => {
-        history.push('/chat');
-      },
-    },
-  ];
-
   return (
     <div>
-      {ssoButtonData.map((sso, index) => (
-        <SsoButton {...sso} key={index} />
-      ))}
+      <h1>Unwind</h1>
+      <Formik
+        initialValues={formInitialValues}
+        onSubmit={(values: ILoginFormValues, actions: FormikActions<ILoginFormValues>) => {
+          actions.setSubmitting(true);
+
+          authService
+            .login(values.email, values.password)
+            .then(() => {
+              history.push('/chat');
+            })
+            .catch(err => {
+              console.log('error:', err);
+            })
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
+        }}
+        render={({ isSubmitting }: FormikProps<ILoginFormValues>) => (
+          <Form>
+            <Field type="email" name="email" placeholder="Email" />
+            <ErrorMessage name="email" component="div" />
+
+            <Field type="password" name="password" placeholder="Password" />
+            <ErrorMessage name="password" component="div" />
+
+            <button type="submit" disabled={isSubmitting}>
+              Login
+            </button>
+          </Form>
+        )}
+      />
     </div>
   );
 };

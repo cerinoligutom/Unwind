@@ -35,7 +35,8 @@ services:
     networks:
       - frontend
     environment: 
-      - CHOKIDAR_USEPOLLING=true 
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_API_URL=http://localhost:${API_PORT}/api/v1
 
   db:
     container_name: unwind_db
