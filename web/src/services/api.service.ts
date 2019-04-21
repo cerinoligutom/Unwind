@@ -22,7 +22,8 @@ const get = async <T>(url: string, urlParams?: { [key: string]: any }) => {
       },
       params: urlParams,
     })
-    .then(response => response.data);
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
 };
 
 const put = async <T>(url: string, data: { [key: string]: any }) => {
@@ -32,7 +33,8 @@ const put = async <T>(url: string, data: { [key: string]: any }) => {
         Authorization: getToken(),
       },
     })
-    .then(response => response.data);
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
 };
 
 const post = async <T>(url: string, data: { [key: string]: any }) => {
@@ -42,7 +44,8 @@ const post = async <T>(url: string, data: { [key: string]: any }) => {
         Authorization: getToken(),
       },
     })
-    .then(response => response.data);
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
 };
 
 const del = async (url: string) => {
@@ -52,7 +55,8 @@ const del = async (url: string) => {
         Authorization: getToken(),
       },
     })
-    .then(response => response.data);
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
 };
 
 export const apiService = {
