@@ -15,6 +15,8 @@ import { customErrorMiddleware } from './middlewares/error.middleware';
 import helmet from 'helmet';
 
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 const startApp = async () => {
   // Test postgres db
@@ -38,7 +40,11 @@ const startApp = async () => {
   // Basic error middleware
   app.use(customErrorMiddleware());
 
-  app.listen(env.port, env.host, () => {
+  io.on('connection', () => {
+    console.info('a user is connected');
+  });
+
+  server.listen(env.port, env.host, () => {
     // tslint:disable-next-line:no-console
     console.info(`Server is now up @ ${env.host}:${env.port}`);
   });

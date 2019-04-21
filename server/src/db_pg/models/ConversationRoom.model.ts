@@ -2,6 +2,7 @@ import { BaseModel } from './common/BaseModel';
 import Joi from 'joi';
 import { RelationMappings, Model } from 'objection';
 import { User } from './User.model';
+import { Message } from './Message.model';
 const regexWebUrl = require('regex-weburl');
 
 export class ConversationRoom extends BaseModel {
@@ -18,6 +19,14 @@ export class ConversationRoom extends BaseModel {
           to: 'user_conversation_rooms.userId',
         },
         to: 'users.id',
+      },
+    },
+    messages: {
+      relation: Model.HasManyRelation,
+      modelClass: __dirname + '/Message.model',
+      join: {
+        from: 'conversation_rooms.id',
+        to: 'messages.conversationRoomId',
       },
     },
   };
@@ -41,5 +50,6 @@ export class ConversationRoom extends BaseModel {
   name!: string;
   photoUrl?: string;
 
+  messages?: Message[];
   participants?: User[];
 }

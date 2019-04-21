@@ -9,7 +9,9 @@ import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 
 setGlobal({
-  user: null,
+  user: {},
+  conversationRooms: [],
+  activeConversationRoomId: '',
 });
 
 const App = () => (

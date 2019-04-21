@@ -4,7 +4,7 @@ import { asyncHandler } from '@app/utils';
 
 const router = express.Router();
 
-router.post('/', asyncHandler(conversationRoomController.create))
+router.post('/', asyncHandler(conversationRoomController.create));
 router.get('/:id', asyncHandler(conversationRoomController.getById));
 router.put('/:id', asyncHandler(conversationRoomController.update));
 
