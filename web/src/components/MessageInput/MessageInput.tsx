@@ -13,13 +13,14 @@ export const MessageInput = () => {
     };
   }, [activeConversationRoomId]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
   };
 
-  const handleInputKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleInputKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const keyPressed = e.keyCode || e.which || e.charCode;
 
+    // TODO: Pressing shift + enter on textarea for a new line shouldn't send the message
     // 13 is enter
     if (keyPressed == 13) {
       e.preventDefault();
@@ -33,7 +34,7 @@ export const MessageInput = () => {
 
   return (
     <Container>
-      <input value={message} onChange={handleInputChange} onKeyUp={handleInputKeyUp} />
+      <textarea value={message} onChange={handleInputChange} onKeyUp={handleInputKeyUp} />
     </Container>
   );
 };
