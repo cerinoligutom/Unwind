@@ -8,8 +8,6 @@ import { ConversationListItem } from '../ConversationListItem/ConversationListIt
 export const ConversationListSidebar = () => {
   const [conversationRooms] = useGlobal<ConversationRoom[]>('conversationRooms');
 
-  console.log('conversationRooms:', conversationRooms);
-
   return (
     <Container>
       <CreateRoom />
