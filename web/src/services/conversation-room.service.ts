@@ -11,7 +11,12 @@ const getPreviousMessages = async (conversationRoomId: string, cursor: string) =
   return apiService.get<ICursorPaginated<Message>>(`/conversationRooms/${conversationRoomId}/messages`, { cursor });
 };
 
+const create = async (name: string) => {
+  return apiService.post<ConversationRoom>(`/conversationRooms`, { name });
+};
+
 export const conversationRoomService = {
   getCurrentUserConversationRooms,
   getPreviousMessages,
+  create,
 };

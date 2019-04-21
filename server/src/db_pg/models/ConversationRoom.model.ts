@@ -38,7 +38,7 @@ export class ConversationRoom extends BaseModel {
 
     name: Joi.string()
       .label('Chat room name')
-      .min(1)
+      .min(3)
       .required(),
 
     photoUrl: Joi.string()

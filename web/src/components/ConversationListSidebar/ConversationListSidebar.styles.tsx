@@ -15,12 +15,3 @@ export const Container = styled.div`
 
   background: red;
 `;
-
-export const CreateRoomButton = styled.button`
-  border: 1px solid white;
-  border-radius: 32px;
-  padding: 0.5rem 0;
-
-  color: white;
-  background: blue;
-`;

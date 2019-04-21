@@ -19,6 +19,9 @@ const create: RequestHandler = async (req, res) => {
   }
 
   const conversationRoom = await conversationRoomService.create(form);
+  
+  // Add the user who created the room to the room
+  await conversationRoomService.addUserToConversationRoom(req.user.id, conversationRoom.id);
 
   res.send(conversationRoom);
 };
