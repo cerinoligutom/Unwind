@@ -1,4 +1,4 @@
-import { Message, MessageRecipient } from '@app/models';
+import { Message, MessageRecipient, User } from '@app/models';
 import { ICursorResult } from 'objection-cursor';
 import { conversationRoomService } from '../conversation-room/conversation-room.service';
 import { messageRecipientService } from '../message-recipient/message-recipient.service';
@@ -8,7 +8,10 @@ interface IGetByPageFilters {
 }
 
 const getById = async (id: string) => {
-  return Message.query().findById(id);
+  return Message.query()
+    .findById(id)
+    .eager('sender')
+    .omit(User, ['hash', 'salt', 'createdAt', 'updatedAt']);
 };
 
 const getByPage = async (
@@ -17,8 +20,10 @@ const getByPage = async (
   filters: IGetByPageFilters,
 ): Promise<ICursorResult<Message>> => {
   const query = Message.query()
+    .eager('sender')
     .where('conversationRoomId', filters.conversationRoomId)
     .orderBy('createdAt', 'desc')
+    .omit(User, ['hash', 'salt', 'createdAt', 'updatedAt'])
     .limit(pageSize);
 
   // * https://github.com/olavim/objection-cursor/issues/1
@@ -28,21 +33,10 @@ const getByPage = async (
 
 const create = async (message: Message) => {
   // ? Check if user is a participant of the conversation room?
-  const msg = await Message.query().insertAndFetch(message);
-  const conversationRoom = await conversationRoomService.getById(message.conversationRoomId);
-
-  if (conversationRoom && conversationRoom.participants) {
-    const participantIds = conversationRoom.participants.map(x => x.id).filter(id => id !== msg.senderId);
-
-    // TODO: Property isRead should be set accordingly based if user is online and on the current chat room
-    participantIds.forEach(id => {
-      messageRecipientService.create({
-        recipientId: id,
-        conversationRoomId: conversationRoom.id,
-        messageId: msg.id,
-      } as MessageRecipient);
-    });
-  }
+  const msg = await Message.query()
+    .insertAndFetch(message)
+    .eager('sender')
+    .omit(User, ['hash', 'salt', 'createdAt', 'updatedAt']);
 
   return msg;
 };

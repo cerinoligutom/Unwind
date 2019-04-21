@@ -16,10 +16,11 @@ const getById = async (id: string) => {
 const getConversationRooms = async (userId: string) => {
   const user = await User.query()
     .findById(userId)
-    .eager('conversationRooms.[participants, messages]')
+    .eager('conversationRooms.[participants, messages.sender]')
     .modifyEager('conversationRooms.messages', builder => {
       builder.orderBy('createdAt', 'desc').limit(1);
-    });
+    })
+    .omit(User, ['hash', 'salt', 'createdAt', 'updatedAt']);
 
   if (user && user.conversationRooms) {
     user.conversationRooms.forEach(room => {

@@ -9,5 +9,5 @@ export class Message {
   createdAt!: string;
   updatedAt!: string;
 
-  sender?: User;
+  sender!: User;
 }

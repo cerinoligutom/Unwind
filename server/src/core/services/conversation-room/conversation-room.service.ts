@@ -1,7 +1,10 @@
-import { ConversationRoom } from '@app/models';
+import { ConversationRoom, User } from '@app/models';
 
 const getById = async (id: string) => {
-  return ConversationRoom.query().findById(id).eager('participants');
+  return ConversationRoom.query()
+    .findById(id)
+    .eager('participants')
+    .omit(User, ['hash', 'salt', 'createdAt', 'updatedAt']);
 };
 
 const create = async (conversationRoom: ConversationRoom) => {
