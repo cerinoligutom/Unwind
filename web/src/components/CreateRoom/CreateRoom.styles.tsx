@@ -6,7 +6,7 @@ export const Container = styled.div`
 
   margin-bottom: 1rem;
 
-  background: skyblue;
+  background: #26262b;
 `;
 
 export const CreateRoomButton = styled.button`
@@ -15,5 +15,5 @@ export const CreateRoomButton = styled.button`
   padding: 0.5rem 0;
 
   color: white;
-  background: blue;
+  background: #4A4A53;
 `;

@@ -8,5 +8,5 @@ export const Container = styled.div`
   height: 5vh;
   padding: 0.5rem 1rem;
 
-  background: orange;
+  background: #4A4A53;
 `;

@@ -9,5 +9,5 @@ export const Container = styled.div`
 
   padding: 1rem;
 
-  background: darkblue;
+  background: #4A4A53;
 `;
