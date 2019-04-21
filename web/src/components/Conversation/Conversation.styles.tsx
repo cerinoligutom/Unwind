@@ -9,5 +9,18 @@ export const Container = styled.div`
 
   padding: 1rem;
 
-  background: #4A4A53;
+  overflow-y: scroll;
+
+  background: #4a4a53;
+`;
+
+export const RoomDetails = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  margin: 0.5rem;
+`;
+
+export const RoomName = styled.div`
+  font-weight: bold;
 `;

@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useGlobal } from 'reactn';
-import { Container } from './Conversation.styles';
+import { Container, RoomDetails, RoomName } from './Conversation.styles';
 import { ConversationRoom } from '../../models/ConversationRoom';
 import { conversationRoomService } from '../../services/conversation-room.service';
 import { messageReducer, actions } from '../../reducers/message.reducer';
+import { ConversationMessage } from '../ConversationMessage/ConversationMessage';
+import ScrollableFeed, { ScrollableFeedProps } from 'react-scrollable-feed';
 
 export const Conversation = () => {
   const [conversationRooms] = useGlobal<ConversationRoom[]>('conversationRooms');
@@ -28,9 +30,19 @@ export const Conversation = () => {
     }
   }, [activeConversationRoomId]);
 
+  const changeDetectionFilter = (previousProps: any, newProps: any) => {
+    return !!conversationRoom && !!conversationRoom.cursor;
+  };
+
   return (
-    <Container>
-      <pre>{JSON.stringify(conversationRoom, null, 2)}</pre>
-    </Container>
+    <>
+      <RoomDetails>
+        <RoomName>{conversationRoom && conversationRoom.name}</RoomName>
+      </RoomDetails>
+      <ScrollableFeed forceScroll changeDetectionFilter={changeDetectionFilter}>
+        {conversationRoom &&
+          conversationRoom.messages.map(message => <ConversationMessage key={message.id} {...message} />)}
+      </ScrollableFeed>
+    </>
   );
 };

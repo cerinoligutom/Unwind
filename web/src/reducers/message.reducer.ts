@@ -36,9 +36,9 @@ const addOldMessages = (global: IGlobalState, payload: IAddOldMessagesPayload) =
     if (conversationRoom) {
       if (conversationRoom.messages.length < 25) {
         // Means this is the first time it's retrieving the conversations
-        conversationRoom.messages = messages;
+        conversationRoom.messages = messages.reverse();
       } else {
-        conversationRoom.messages = [...conversationRoom.messages, ...messages];
+        conversationRoom.messages = [...conversationRoom.messages, ...messages.reverse()];
       }
 
       conversationRoom.cursor = cursor;

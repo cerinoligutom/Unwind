@@ -25,12 +25,14 @@
     "axios": "^0.18.0",
     "formik": "^1.5.2",
     "immer": "^3.1.1",
+    "moment": "^2.24.0",
     "node-sass": "^4.11.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-modal": "^3.8.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
+    "react-scrollable-feed": "^1.0.3",
     "reactn": "^1.0.0",
     "socket.io-client": "^2.2.0",
     "styled-components": "^4.2.0",
@@ -38,6 +40,7 @@
     "typescript": "3.3.3333"
   },
   "devDependencies": {
+    "@types/moment": "^2.13.0",
     "@types/react-modal": "^3.8.2",
     "@types/react-router-dom": "^4.3.1",
     "@types/socket.io-client": "^1.4.32",
