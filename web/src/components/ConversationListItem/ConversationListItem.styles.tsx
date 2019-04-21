@@ -10,12 +10,12 @@ export const Container = styled.div`
   margin-bottom: 0.5rem;
   border-radius: 0.25rem;
 
-  background-color: ${(props: { active?: boolean }) => (props.active ? '#4A4A53' : '#26262b')}
+  background-color: ${(props: { active?: boolean }) => (props.active ? '#4A4A53' : '#26262b')};
 
   :hover {
-    background-color: #4A4A53;
+    background-color: #4a4a53;
     cursor: pointer;
-  };
+  }
 `;
 
 export const ImageContainer = styled.div`
