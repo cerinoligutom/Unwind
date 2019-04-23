@@ -22,9 +22,9 @@ passport.use(
               message: 'Logged in successfully ',
             });
           }
-          return done(undefined, false, { message: 'Wrong password.' });
+          return done(undefined, false, { message: 'Wrong email or password.' });
         }
-        return done(undefined, false, { message: 'User not found.' });
+        return done(undefined, false, { message: 'Wrong email or password.' });
       } catch (error) {
         return done(error, false, {
           message: '[local-strategy] Something went wrong.',

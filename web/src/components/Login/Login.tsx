@@ -6,6 +6,7 @@ import { TextField } from 'formik-material-ui';
 import { Button } from '@material-ui/core';
 import { Container, Actions, Fields } from './Login.styles';
 import { Link } from 'react-router-dom';
+import toastr from 'toastr';
 
 interface ILoginFormValues {
   email: string;
@@ -28,9 +29,11 @@ export const Login = ({ history }: ILoginProps) => {
           authService
             .login(values.email, values.password)
             .then(() => {
+              toastr.success('Successfully logged in!');
               history.push('/chat');
             })
             .catch(err => {
+              toastr.error(err.message);
               console.log('error:', err);
             })
             .finally(() => {
