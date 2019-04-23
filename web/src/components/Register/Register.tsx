@@ -1,9 +1,12 @@
 import React from 'react';
 import { RouterProps } from 'react-router';
-import { Formik, FormikActions, FormikProps, Form, Field, ErrorMessage } from 'formik';
+import { Formik, FormikActions, FormikProps, Form, ErrorMessage, Field } from 'formik';
 import { authService } from '../../services/auth.service';
 import toastr from 'toastr';
 import { IRegisterForm } from '../../models/IRegisterForm';
+import { TextField } from 'formik-material-ui';
+import { Button } from '@material-ui/core';
+import { Fields, Container, Actions } from './Register.styles';
 
 const formInitialValues: IRegisterForm = {
   firstName: '',
@@ -12,6 +15,11 @@ const formInitialValues: IRegisterForm = {
   username: '',
   email: '',
   hash: '',
+};
+
+const fieldStyle = {
+  marginBottom: '24px',
+  width: '350px',
 };
 
 interface IRegisterProps extends RouterProps {}
@@ -41,27 +49,74 @@ export const Register = ({ history }: IRegisterProps) => {
         }}
         render={({ isSubmitting }: FormikProps<IRegisterForm>) => (
           <Form>
-            <Field type="text" name="firstName" placeholder="First Name" required />
-            <ErrorMessage name="firstName" component="div" />
+            <Container>
+              <Fields>
+                <Field
+                  style={fieldStyle}
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  required
+                  component={TextField}
+                />
+                <ErrorMessage name="firstName" component="div" />
 
-            <Field type="text" name="middleName" placeholder="Middle Name" />
-            <ErrorMessage name="middleName" component="div" />
+                <Field
+                  style={fieldStyle}
+                  type="text"
+                  name="middleName"
+                  placeholder="Middle Name"
+                  component={TextField}
+                />
+                <ErrorMessage name="middleName" component="div" />
 
-            <Field type="text" name="lastName" placeholder="Last Name" required />
-            <ErrorMessage name="lastName" component="div" />
+                <Field
+                  style={fieldStyle}
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                  required
+                  component={TextField}
+                />
+                <ErrorMessage name="lastName" component="div" />
 
-            <Field type="text" name="username" placeholder="Username" required />
-            <ErrorMessage name="username" component="div" />
+                <Field
+                  style={fieldStyle}
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  required
+                  component={TextField}
+                />
+                <ErrorMessage name="username" component="div" />
 
-            <Field type="email" name="email" placeholder="Email" required />
-            <ErrorMessage name="email" component="div" />
+                <Field
+                  style={fieldStyle}
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                  component={TextField}
+                />
+                <ErrorMessage name="email" component="div" />
 
-            <Field type="password" name="hash" placeholder="Password" required />
-            <ErrorMessage name="password" component="div" />
+                <Field
+                  style={fieldStyle}
+                  type="password"
+                  name="hash"
+                  placeholder="Password"
+                  required
+                  component={TextField}
+                />
+                <ErrorMessage name="password" component="div" />
+              </Fields>
 
-            <button type="submit" disabled={isSubmitting}>
-              Register
-            </button>
+              <Actions>
+                <Button variant="outlined" type="submit" disabled={isSubmitting}>
+                  Register
+                </Button>
+              </Actions>
+            </Container>
           </Form>
         )}
       />

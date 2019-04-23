@@ -1,7 +1,11 @@
 import React from 'react';
 import { RouterProps } from 'react-router';
-import { Formik, FormikActions, FormikProps, Form, Field, ErrorMessage } from 'formik';
+import { Formik, FormikActions, FormikProps, Form, ErrorMessage, Field } from 'formik';
 import { authService } from '../../services/auth.service';
+import { TextField } from 'formik-material-ui';
+import { Button } from '@material-ui/core';
+import { Container, Actions, Fields } from './Login.styles';
+import { Link } from 'react-router-dom';
 
 interface ILoginFormValues {
   email: string;
@@ -35,15 +39,36 @@ export const Login = ({ history }: ILoginProps) => {
         }}
         render={({ isSubmitting }: FormikProps<ILoginFormValues>) => (
           <Form>
-            <Field type="email" name="email" placeholder="Email" />
-            <ErrorMessage name="email" component="div" />
+            <Container>
+              <Fields>
+                <Field
+                  style={{ marginRight: '8px', width: '250px' }}
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  component={TextField}
+                />
+                <ErrorMessage name="email" component="div" />
 
-            <Field type="password" name="password" placeholder="Password" />
-            <ErrorMessage name="password" component="div" />
+                <Field
+                  style={{ width: '250px' }}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  component={TextField}
+                />
+                <ErrorMessage name="password" component="div" />
+              </Fields>
 
-            <button type="submit" disabled={isSubmitting}>
-              Login
-            </button>
+              <Actions>
+                <Link style={{ color: 'grey' }} to="/register">
+                  Do not have an account yet? Sign up here.
+                </Link>
+                <Button variant="outlined" type="submit" disabled={isSubmitting}>
+                  Login
+                </Button>
+              </Actions>
+            </Container>
           </Form>
         )}
       />
