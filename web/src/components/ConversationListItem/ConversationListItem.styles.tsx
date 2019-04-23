@@ -4,8 +4,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
 
-  overflow: hidden;
-
   padding: 0.25rem;
   margin-bottom: 0.5rem;
   border-radius: 0.25rem;
