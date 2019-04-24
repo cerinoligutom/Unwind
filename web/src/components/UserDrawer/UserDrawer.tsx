@@ -68,7 +68,7 @@ export const UserDrawer = () => {
                 setUser(user);
                 setTimeout(() => {
                   hideModal();
-                }, 500)
+                }, 500);
               })
               .catch(err => {
                 toastr.error(err.errors.map((x: any) => x.message).join('\n'));
@@ -140,7 +140,19 @@ export const UserDrawer = () => {
     <Container>
       {user && (
         <>
-          <ImageContainer>{user.username && user.username.charAt(0)}</ImageContainer>
+          <ImageContainer>
+            {user.avatarUrl && (
+              <img
+                style={{
+                  objectFit: 'contain',
+                  height: '100%',
+                  width: '100%',
+                }}
+                src={user.avatarUrl}
+              />
+            )}
+            {!user.avatarUrl && user.username && user.username.charAt(0)}
+          </ImageContainer>
           <UserDetails>
             <Username>{user.username}</Username>
             <Email>{user.email}</Email>

@@ -8,10 +8,22 @@ import {
 } from './ConversationParticipant.styles';
 import { User } from '../../models/User';
 
-export const ConversationParticipant = ({ firstName, lastName, username }: User) => {
+export const ConversationParticipant = ({ firstName, lastName, username, avatarUrl }: User) => {
   return (
     <Container>
-      <ImageContainer>{username.charAt(0)}</ImageContainer>
+      <ImageContainer>
+        {avatarUrl && (
+          <img
+            style={{
+              objectFit: 'contain',
+              height: '100%',
+              width: '100%',
+            }}
+            src={avatarUrl}
+          />
+        )}
+        {!avatarUrl && username.charAt(0)}
+      </ImageContainer>
       <ParticipantDetails>
         <ParticipantUsername>{username}</ParticipantUsername>
         <ParticipantName>{`${firstName} ${lastName}`}</ParticipantName>

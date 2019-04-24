@@ -29,7 +29,9 @@ export const ImageContainer = styled.div`
 
   margin-right: 0.5rem;
 
+  width: 50px;
   min-width: 50px;
+  height: 50px;
   min-height: 50px;
 `;
 
