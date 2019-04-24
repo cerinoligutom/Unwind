@@ -6,6 +6,8 @@ export const Container = styled.div`
   flex-grow: 1;
 
   background: #4a4a53;
+
+  margin-top: 8px;
 `;
 
 export const TextArea = styled.textarea`

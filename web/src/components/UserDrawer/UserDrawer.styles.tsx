@@ -120,3 +120,14 @@ export const FullName = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+
+export const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ActionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
