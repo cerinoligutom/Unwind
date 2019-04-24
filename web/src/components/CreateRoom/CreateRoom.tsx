@@ -1,19 +1,22 @@
 import React from 'react';
 import { useGlobal } from 'reactn';
-import { Container, CreateRoomButton } from './CreateRoom.styles';
+import { Container, CreateRoomButton, FormContainer, ActionsContainer } from './CreateRoom.styles';
 import { Formik, FormikActions, FormikProps, Form, Field, ErrorMessage } from 'formik';
 import toastr from 'toastr';
 import ReactModal from 'react-modal';
 import { useModal } from 'react-modal-hook';
 import { conversationRoomService } from '../../services/conversation-room.service';
+import { TextField } from 'formik-material-ui';
+import { Button } from '@material-ui/core';
 
 const modalStyle: ReactModal.Styles = {
   content: {
-    height: '200px',
+    height: '185px',
     width: '600px',
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: '#26262b',
   },
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.75)',
@@ -29,7 +32,7 @@ export const CreateRoom = () => {
   const [showModal, hideModal] = useModal(() => {
     return (
       <ReactModal isOpen ariaHideApp={false} style={modalStyle}>
-        <h1>Unwind</h1>
+        <h4>Create a new room</h4>
         <Formik
           initialValues={{ name: '' }}
           onSubmit={(values: ICreateRoomFormValues, actions: FormikActions<ICreateRoomFormValues>) => {
@@ -45,8 +48,9 @@ export const CreateRoom = () => {
                   hideModal();
                 }, 1000);
               })
-              .catch(() => {
-                toastr.error('Oops! Something went wrong.');
+              .catch((err) => {
+                toastr.error(err.errors.map((x: any) => x.message).join('\n'));
+                console.log('error:', err);
               })
               .finally(() => {
                 actions.setSubmitting(false);
@@ -54,12 +58,20 @@ export const CreateRoom = () => {
           }}
           render={({ isSubmitting }: FormikProps<ICreateRoomFormValues>) => (
             <Form>
-              <Field min="3" type="text" name="name" placeholder="Conversation room name" />
-              <ErrorMessage name="name" component="div" />
+              <FormContainer>
+                <Field style={{ margin: '12px 0 24px' }} required min="3" type="text" name="name" placeholder="Conversation room name" component={TextField} />
+                <ErrorMessage name="name" component="div" />
 
-              <button type="submit" disabled={isSubmitting}>
-                Create
-              </button>
+                <ActionsContainer>
+                  <Button onClick={hideModal}>Close</Button>
+
+                  <Button type="submit" disabled={isSubmitting}>
+                    Create
+                  </Button>
+
+                  
+                </ActionsContainer>
+              </FormContainer>
             </Form>
           )}
         />

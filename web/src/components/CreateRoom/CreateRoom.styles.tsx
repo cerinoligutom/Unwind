@@ -1,5 +1,16 @@
 import styled from 'styled-components';
 
+export const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ActionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,4 +27,8 @@ export const CreateRoomButton = styled.button`
 
   color: white;
   background: #4A4A53;
+
+  :focus {
+    outline: none;
+  }
 `;
