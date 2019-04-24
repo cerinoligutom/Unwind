@@ -49,6 +49,7 @@ export const Username = styled.div`
 export const Text = styled.div`
   display: flex;
   flex-grow: 1;
+  white-space: pre-wrap;
 `;
 
 export const Date = styled.div``;
