@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobal } from 'reactn';
-import { Container, TextArea } from './MessageInput.styles';
+import { Container } from './MessageInput.styles';
 import { messageService } from '../../services/message.service';
 import TextareaAutosize from 'react-textarea-autosize';
+import toastr from 'toastr';
 
 export const MessageInput = () => {
   const [activeConversationRoomId] = useGlobal<string>('activeConversationRoomId');
@@ -18,17 +19,18 @@ export const MessageInput = () => {
     setMessage(e.target.value);
   };
 
-  const handleInputKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const keyPressed = e.keyCode || e.which || e.charCode;
 
-    // TODO: Pressing shift + enter on textarea for a new line shouldn't send the message
-    // 13 is enter
-    if (keyPressed == 13 && !e.shiftKey) {
+    if (!e.shiftKey && keyPressed == 13) {
       e.preventDefault();
-      e.stopPropagation();
 
-      messageService.createMessage(activeConversationRoomId, message).then(message => {
-        console.log('message sent:', message);
+      const messageDraft = message;
+      setMessage('');
+
+      messageService.createMessage(activeConversationRoomId, messageDraft).catch(() => {
+        setMessage(messageDraft);
+        toastr.error('Oops. Something went wrong.');
       });
     }
   };
@@ -45,7 +47,7 @@ export const MessageInput = () => {
         }}
         value={message}
         onChange={handleInputChange}
-        onKeyUp={handleInputKeyUp}
+        onKeyDown={handleInputKeyDown}
         minRows={1}
         maxRows={5}
         placeholder="Send a message..."
