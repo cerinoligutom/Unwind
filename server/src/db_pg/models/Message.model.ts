@@ -39,6 +39,7 @@ export class Message extends BaseModel {
 
     text: Joi.string()
       .min(1)
+      .trim()
       .required(),
 
     isEdited: Joi.bool().default(false),

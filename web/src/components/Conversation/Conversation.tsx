@@ -41,7 +41,22 @@ export const Conversation = () => {
       </RoomDetails>
       <ScrollableFeed forceScroll changeDetectionFilter={changeDetectionFilter}>
         {conversationRoom &&
-          conversationRoom.messages.map(message => <ConversationMessage key={message.id} {...message} />)}
+          conversationRoom.messages &&
+          conversationRoom.messages.map((message, index, messages) => {
+            let isConsecutive = false;
+
+            if (index !== 0 && messages.length !== index + 1) {
+              isConsecutive =
+                messages.length !== index + 1
+                  ? messages[messages.length - index - 1].sender.id === messages[messages.length - index - 2].sender.id
+                  : false;
+            } else if (messages.length > 1 && messages.length === index + 1) {
+              console.log('test');
+              isConsecutive = messages[index].sender.id === messages[index-1].sender.id;
+            }
+
+            return <ConversationMessage key={message.id} message={message} consecutive={isConsecutive} />;
+          })}
       </ScrollableFeed>
     </>
   );

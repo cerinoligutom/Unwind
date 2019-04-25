@@ -11,9 +11,7 @@ export const ConversationListSidebar = () => {
   return (
     <Container>
       <CreateRoom />
-      {conversationRooms.map(room => (
-        <ConversationListItem key={room.id} {...room} />
-      ))}
+      {conversationRooms.length > 0 && conversationRooms.map(room => <ConversationListItem key={room.id} {...room} />)}
     </Container>
   );
 };

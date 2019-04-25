@@ -5,7 +5,7 @@ export const ActionsDrawer = styled.div`
   flex-direction: row;
 
   position: absolute;
-  left: 100%;
+  right: 100%;
   top: 0;
 
   padding: 1rem;
@@ -16,7 +16,7 @@ export const ActionsDrawer = styled.div`
   background-color: #26262b;
   color: white;
 
-  transition: left 0.25s;
+  transition: right 0.10s;
 `;
 
 export const Action = styled.button`
@@ -56,7 +56,7 @@ export const Container = styled.div`
   background: #26262b;
 
   &:hover ${ActionsDrawer} {
-    left: 0;
+    right: 0;
   }
 `;
 

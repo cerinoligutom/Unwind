@@ -8,6 +8,26 @@ import { RegisterPage } from './pages/RegisterPage/RegisterPage';
 import { ChatPage } from './pages/ChatPage/ChatPage';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
+import moment from 'moment';
+
+moment.updateLocale('en', {
+  relativeTime: {
+    future: 'in %s',
+    past: '%s ago',
+    s: 'seconds',
+    ss: '%ss',
+    m: 'a minute',
+    mm: '%dm',
+    h: 'an hour',
+    hh: '%dh',
+    d: 'a day',
+    dd: '%dd',
+    M: 'a month',
+    MM: '%dM',
+    y: 'a year',
+    yy: '%dY',
+  },
+});
 
 setGlobal({
   user: {},

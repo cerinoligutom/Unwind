@@ -22,7 +22,7 @@ export const MessageInput = () => {
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const keyPressed = e.keyCode || e.which || e.charCode;
 
-    if (!e.shiftKey && keyPressed == 13) {
+    if (!e.shiftKey && keyPressed == 13 && message.trim().length > 0) {
       e.preventDefault();
 
       const messageDraft = message;
