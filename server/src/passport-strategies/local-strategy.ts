@@ -12,7 +12,7 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        const user = await User.query().findOne('email', email);
+        const user = await User.query().findOne('email', email.toLocaleLowerCase());
 
         if (user) {
           const isValidPassword = await passwordUtil.verify(password, user.hash, user.salt);

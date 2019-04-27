@@ -11,11 +11,24 @@ import { authService } from '../../services/auth.service';
 import { User } from '../../models/User';
 import { ConversationRoom } from '../../models/ConversationRoom';
 import { conversationRoomService } from '../../services/conversation-room.service';
+import { localStorageService } from '../../services/local-storage.service';
+import { Message } from '../../models/Message';
+import { messageReducer, actions } from '../../reducers/message.reducer';
 
 export const ChatPage = () => {
+  const socket = io('http://192.168.100.7:9200');
   const [user, setUser] = useGlobal<User>('user');
   const [, setConversationRooms] = useGlobal<ConversationRoom[]>('conversationRooms');
   const [, setActiveConversationRoomId] = useGlobal<string>('activeConversationRoomId');
+  const dispatch = useGlobal(messageReducer);
+
+  const connectToRoom = (roomId: string) => {
+    socket.emit('Join room', roomId);
+  };
+
+  const disconnectFromRoom = (roomId: string) => {
+    socket.emit('Leave room', roomId);
+  };
 
   useEffect(() => {
     authService.getCurrentUser().then(user => {
@@ -24,26 +37,46 @@ export const ChatPage = () => {
 
     conversationRoomService.getCurrentUserConversationRooms().then(conversationRooms => {
       setConversationRooms(conversationRooms);
-      setActiveConversationRoomId(conversationRooms[1].id);
-
-      setTimeout(() => {
-        setActiveConversationRoomId(conversationRooms[0].id);
-      }, 2000);
+      setActiveConversationRoomId(conversationRooms[0].id);
     });
 
-    const socket = io('http://localhost:9200');
-
     socket.on('connect', () => {
-      console.log('connected');
+      console.info('Authenticating...');
+
+      socket.emit('authentication', {
+        token: localStorageService.getItem<string>('token'),
+      });
+
+      socket.on('authenticated', () => {
+        console.info('Authenticated!');
+        socket.emit('Connect to rooms');
+
+        socket.on('New message', (data: Message) => {
+          console.info('new message:', data);
+          dispatch(
+            actions.addNewMessage({
+              conversationRoomId: data.conversationRoomId,
+              message: data,
+            }),
+          );
+        });
+      });
+      socket.on('unauthorized', (err: Error) => {
+        console.log('There was an error with the authentication:', err.message);
+      });
+    });
+
+    socket.on('disconnect', () => {
+      console.info('Got disconnected');
     });
   }, []);
 
   return (
     <>
       {user && <UserDrawer />}
-      <ConversationListSidebar />
+      <ConversationListSidebar connectToRoom={connectToRoom} />
       <ChatContainer>
-        <Conversation />
+        <Conversation disconnectFromRoom={disconnectFromRoom} />
         <MessageInput />
       </ChatContainer>
       <ConversationParticipantsSidebar />

@@ -91,6 +91,8 @@ export const ImageContainer = styled.div`
   height: 60px;
   min-height: 60px;
   max-height: 60px;
+
+  overflow: hidden;
 `;
 
 export const UserDetails = styled.div`

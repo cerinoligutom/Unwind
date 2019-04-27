@@ -14,9 +14,8 @@ import knex from './db_pg/knex-config';
 import { customErrorMiddleware } from './middlewares/error.middleware';
 import helmet from 'helmet';
 
-const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
+import { app, server } from './socket-io';
+
 
 const startApp = async () => {
   // Test postgres db
@@ -39,10 +38,6 @@ const startApp = async () => {
 
   // Basic error middleware
   app.use(customErrorMiddleware());
-
-  io.on('connection', () => {
-    console.info('a user is connected');
-  });
 
   server.listen(env.port, env.host, () => {
     // tslint:disable-next-line:no-console

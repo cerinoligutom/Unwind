@@ -15,3 +15,10 @@ export const Container = styled.div`
 
   background: #26262b;
 `;
+
+export const ParticipantsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+`;

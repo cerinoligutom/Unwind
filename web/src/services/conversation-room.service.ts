@@ -15,8 +15,18 @@ const create = async (name: string) => {
   return apiService.post<ConversationRoom>(`/conversationRooms`, { name });
 };
 
+const joinConversationRoom = async (userId: string, roomId: string) => {
+  return apiService.put(`/conversationRooms/${roomId}/users/${userId}`);
+};
+
+const leaveConversationRoom = async (userId: string, roomId: string) => {
+  return apiService.del(`/conversationRooms/${roomId}/users/${userId}`);
+};
+
 export const conversationRoomService = {
   getCurrentUserConversationRooms,
   getPreviousMessages,
   create,
+  joinConversationRoom,
+  leaveConversationRoom,
 };

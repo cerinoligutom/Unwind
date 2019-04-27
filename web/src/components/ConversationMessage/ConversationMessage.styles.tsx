@@ -18,13 +18,15 @@ export const ImageContainer = styled.div`
   border-radius: 50%;
   border: 2px solid white;
 
-  margin-right: 0.5rem;
+  margin-right: 1rem;
 
-  min-width: 50px;
-  max-width: 50px;
+  min-width: 40px;
+  max-width: 40px;
+  
+  min-height: 40px;
+  max-height: 40px;
 
-  min-height: 50px;
-  max-height: 50px;
+  overflow: hidden;
 `;
 
 export const MessageDetails = styled.div`
@@ -73,6 +75,5 @@ export const ConsecutiveMessage = styled.div`
     opacity: 1;
   }
 `;
-
 
 export const Date = styled.div``;

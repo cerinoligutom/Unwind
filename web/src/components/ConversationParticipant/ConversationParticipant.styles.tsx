@@ -4,10 +4,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
 
-  overflow: hidden;
-
   padding: 0.25rem;
-  margin-bottom: 0.5rem;
+  margin: 0 0.25rem 0.5rem;
   border-radius: 0.25rem;
 
   :hover {
@@ -33,6 +31,8 @@ export const ImageContainer = styled.div`
   min-width: 50px;
   height: 50px;
   min-height: 50px;
+
+  overflow: hidden;
 `;
 
 export const ParticipantDetails = styled.div`

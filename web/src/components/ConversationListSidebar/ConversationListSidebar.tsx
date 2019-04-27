@@ -1,17 +1,24 @@
 import React from 'react';
 import { useGlobal } from 'reactn';
-import { Container } from './ConversationListSidebar.styles';
+import { Container, ConversationListContainer } from './ConversationListSidebar.styles';
 import { ConversationRoom } from '../../models/ConversationRoom';
 import { CreateRoom } from '../CreateRoom/CreateRoom';
 import { ConversationListItem } from '../ConversationListItem/ConversationListItem';
 
-export const ConversationListSidebar = () => {
+interface IConversationListSidebarProps {
+  connectToRoom(roomId: string): any;
+}
+
+export const ConversationListSidebar = ({ connectToRoom }: IConversationListSidebarProps) => {
   const [conversationRooms] = useGlobal<ConversationRoom[]>('conversationRooms');
 
   return (
     <Container>
-      <CreateRoom />
-      {conversationRooms.length > 0 && conversationRooms.map(room => <ConversationListItem key={room.id} {...room} />)}
+      <CreateRoom connectToRoom={connectToRoom} />
+      <ConversationListContainer>
+        {conversationRooms.length > 0 &&
+          conversationRooms.map(room => <ConversationListItem key={room.id} {...room} />)}
+      </ConversationListContainer>
     </Container>
   );
 };

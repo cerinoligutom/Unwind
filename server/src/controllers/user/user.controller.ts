@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express';
-import { userService } from '@app/services';
+import { userService, conversationRoomService } from '@app/services';
 import { createUserForm, updateUserForm } from './user.validator';
 import { passwordUtil } from '@app/utils';
+import { env } from '@app/config/environment';
 
 const getById: RequestHandler = async (req, res) => {
   const { id } = req.params;
@@ -36,6 +37,9 @@ const create: RequestHandler = async (req, res) => {
   form.salt = salt;
 
   const user = await userService.create(form);
+
+  // Add user to default public room
+  await conversationRoomService.addUserToConversationRoom(user.id, env.defaults.chatRoom);
 
   res.send(user);
 };

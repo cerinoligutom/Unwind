@@ -1,7 +1,6 @@
 import { Message, MessageRecipient, User } from '@app/models';
 import { ICursorResult } from 'objection-cursor';
-import { conversationRoomService } from '../conversation-room/conversation-room.service';
-import { messageRecipientService } from '../message-recipient/message-recipient.service';
+import { broadcastMessage } from '@app/socket';
 
 interface IGetByPageFilters {
   conversationRoomId: string;
@@ -32,11 +31,12 @@ const getByPage = async (
 };
 
 const create = async (message: Message) => {
-  // ? Check if user is a participant of the conversation room?
   const msg = await Message.query()
     .insertAndFetch(message)
     .eager('sender')
     .omit(User, ['hash', 'salt', 'createdAt', 'updatedAt']);
+
+  broadcastMessage(msg);
 
   return msg;
 };

@@ -8,6 +8,7 @@ import { useModal } from 'react-modal-hook';
 import { conversationRoomService } from '../../services/conversation-room.service';
 import { TextField } from 'formik-material-ui';
 import { Button } from '@material-ui/core';
+import { conversationRoomReducer, actions as roomReducerActions } from '../../reducers/conversationRoom.reducer';
 
 const modalStyle: ReactModal.Styles = {
   content: {
@@ -27,8 +28,13 @@ interface ICreateRoomFormValues {
   name: string;
 }
 
-export const CreateRoom = () => {
+interface ICreateRoomProps {
+  connectToRoom(roomId: string): any;
+}
+
+export const CreateRoom = ({ connectToRoom } :ICreateRoomProps) => {
   const [, setActiveConversationRoomId] = useGlobal<string>('activeConversationRoomId');
+  const dispatch = useGlobal(conversationRoomReducer);
   const [showModal, hideModal] = useModal(() => {
     return (
       <ReactModal isOpen ariaHideApp={false} style={modalStyle}>
@@ -42,6 +48,8 @@ export const CreateRoom = () => {
               .create(values.name)
               .then(room => {
                 toastr.success(`Room ${values.name} created.`);
+                dispatch(roomReducerActions.joinRoom({ conversationRoom: room }))
+                connectToRoom(room.id);
 
                 setTimeout(() => {
                   setActiveConversationRoomId(room.id);
@@ -49,8 +57,8 @@ export const CreateRoom = () => {
                 }, 1000);
               })
               .catch((err) => {
-                toastr.error(err.errors.map((x: any) => x.message).join('\n'));
                 console.log('error:', err);
+                toastr.error(err.errors.map((x: any) => x.message).join('\n'));
               })
               .finally(() => {
                 actions.setSubmitting(false);
@@ -68,8 +76,6 @@ export const CreateRoom = () => {
                   <Button type="submit" disabled={isSubmitting}>
                     Create
                   </Button>
-
-                  
                 </ActionsContainer>
               </FormContainer>
             </Form>

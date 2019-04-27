@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useGlobal } from 'reactn';
-import { Container } from './ConversationParticipantsSidebar.styles';
+import { Container, ParticipantsContainer } from './ConversationParticipantsSidebar.styles';
 import { ConversationRoom } from '../../models/ConversationRoom';
 import { ConversationParticipant } from '../ConversationParticipant/ConversationParticipant';
 
@@ -13,11 +13,13 @@ export const ConversationParticipantsSidebar = () => {
 
   return (
     <Container>
-      {participants
-        .sort((a, b) => a.username.toLowerCase().localeCompare(b.username.toLowerCase()))
-        .map(participant => (
-          <ConversationParticipant key={participant.id} {...participant} />
-        ))}
+      <ParticipantsContainer>
+        {participants
+          .sort((a, b) => a.username.toLowerCase().localeCompare(b.username.toLowerCase()))
+          .map(participant => (
+            <ConversationParticipant key={participant.id} {...participant} />
+          ))}
+      </ParticipantsContainer>
     </Container>
   );
 };

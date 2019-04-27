@@ -23,7 +23,7 @@ const create: RequestHandler = async (req, res) => {
   // Add the user who created the room to the room
   await conversationRoomService.addUserToConversationRoom(req.user.id, conversationRoom.id);
 
-  res.send(conversationRoom);
+  res.send(await conversationRoomService.getById(conversationRoom.id));
 };
 
 const update: RequestHandler = async (req, res) => {

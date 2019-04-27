@@ -9,7 +9,7 @@ export const Container = styled.div`
 
   padding: 1rem;
 
-  overflow-y: scroll;
+  overflow-y: auto;
 
   background: #4a4a53;
 `;
@@ -17,10 +17,27 @@ export const Container = styled.div`
 export const RoomDetails = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 
-  margin: 0.5rem;
+  margin: 0 0.5rem 0.5rem;
+  padding: 0.25rem;
+
+  border-bottom: 2px solid white;
 `;
 
 export const RoomName = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   font-weight: bold;
+  font-size: 1.3rem;
+`;
+
+export const RoomActions = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  margin-left: 1rem;
 `;

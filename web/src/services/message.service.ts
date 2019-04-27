@@ -2,7 +2,9 @@ import { apiService } from './api.service';
 import { Message } from '../models/Message';
 
 const createMessage = async (conversationRoomId: string, text: string) => {
-  return apiService.post<Message>(`/conversationRooms/${conversationRoomId}/messages`, { text });
+  const message = await apiService.post<Message>(`/conversationRooms/${conversationRoomId}/messages`, { text });
+
+  return message;
 };
 
 export const messageService = {

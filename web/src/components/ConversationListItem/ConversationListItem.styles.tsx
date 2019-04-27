@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: row;
 
   padding: 0.25rem;
-  margin-bottom: 0.5rem;
+  margin: 0 0.25rem 0.5rem;
   border-radius: 0.25rem;
 
   background-color: ${(props: { active?: boolean }) => (props.active ? '#4A4A53' : '#26262b')};
@@ -31,6 +31,8 @@ export const ImageContainer = styled.div`
 
   min-width: 50px;
   min-height: 50px;
+
+  overflow: hidden;
 `;
 
 export const RoomDetails = styled.div`

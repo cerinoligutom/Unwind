@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
 import { useGlobal } from 'reactn';
-import { Container, RoomDetails, RoomName } from './Conversation.styles';
+import { Container, RoomDetails, RoomName, RoomActions } from './Conversation.styles';
 import { ConversationRoom } from '../../models/ConversationRoom';
 import { conversationRoomService } from '../../services/conversation-room.service';
 import { messageReducer, actions } from '../../reducers/message.reducer';
 import { ConversationMessage } from '../ConversationMessage/ConversationMessage';
-import ScrollableFeed, { ScrollableFeedProps } from 'react-scrollable-feed';
+import ScrollableFeed from 'react-scrollable-feed';
+import { Button } from '@material-ui/core';
+import { LeaveRoom } from '../LeaveRoom/LeaveRoom';
 
-export const Conversation = () => {
+interface IConversationProps {
+  disconnectFromRoom(roomId: string): any;
+}
+
+export const Conversation = ({ disconnectFromRoom }: IConversationProps) => {
   const [conversationRooms] = useGlobal<ConversationRoom[]>('conversationRooms');
   const [activeConversationRoomId] = useGlobal<string>('activeConversationRoomId');
   const dispatch = useGlobal(messageReducer);
@@ -36,28 +42,36 @@ export const Conversation = () => {
 
   return (
     <>
-      <RoomDetails>
-        <RoomName>{conversationRoom && conversationRoom.name}</RoomName>
-      </RoomDetails>
-      <ScrollableFeed forceScroll changeDetectionFilter={changeDetectionFilter}>
-        {conversationRoom &&
-          conversationRoom.messages &&
-          conversationRoom.messages.map((message, index, messages) => {
-            let isConsecutive = false;
+      {conversationRoom && (
+        <>
+          <RoomDetails>
+            <RoomName>{conversationRoom.name}</RoomName>
+            <RoomActions>
+              <Button>Create invite link</Button>
+              <LeaveRoom disconnectFromRoom={disconnectFromRoom} roomId={conversationRoom.id} />
+            </RoomActions>
+          </RoomDetails>
+          <ScrollableFeed forceScroll changeDetectionFilter={changeDetectionFilter}>
+            {conversationRoom.messages &&
+              conversationRoom.messages.map((message, index, messages) => {
+                let isConsecutive = false;
 
-            if (index !== 0 && messages.length !== index + 1) {
-              isConsecutive =
-                messages.length !== index + 1
-                  ? messages[messages.length - index - 1].sender.id === messages[messages.length - index - 2].sender.id
-                  : false;
-            } else if (messages.length > 1 && messages.length === index + 1) {
-              console.log('test');
-              isConsecutive = messages[index].sender.id === messages[index-1].sender.id;
-            }
+                if (index !== 0 && messages.length !== index + 1) {
+                  isConsecutive =
+                    messages.length !== index + 1
+                      ? messages[messages.length - index - 1].sender.id ===
+                        messages[messages.length - index - 2].sender.id
+                      : false;
+                } else if (messages.length > 1 && messages.length === index + 1) {
+                  console.log('test');
+                  isConsecutive = messages[index].sender.id === messages[index - 1].sender.id;
+                }
 
-            return <ConversationMessage key={message.id} message={message} consecutive={isConsecutive} />;
-          })}
-      </ScrollableFeed>
+                return <ConversationMessage key={message.createdAt} message={message} consecutive={isConsecutive} />;
+              })}
+          </ScrollableFeed>
+        </>
+      )}
     </>
   );
 };

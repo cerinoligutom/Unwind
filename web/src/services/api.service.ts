@@ -2,7 +2,8 @@ import axios from 'axios';
 import { localStorageService } from './local-storage.service';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  // baseURL: process.env.REACT_APP_API_URL,
+  baseURL: 'http://192.168.100.7:9200/api/v1'
 });
 
 const setToken = (token: string) => {
@@ -26,7 +27,7 @@ const get = async <T>(url: string, urlParams?: { [key: string]: any }) => {
     .catch(err => Promise.reject(err.response.data));
 };
 
-const put = async <T>(url: string, data: { [key: string]: any }) => {
+const put = async <T>(url: string, data?: { [key: string]: any }) => {
   return api
     .put<T>(url, data, {
       headers: {

@@ -60,6 +60,7 @@ export class User extends BaseModel {
     email: Joi.string()
       .label('Email')
       .email({ minDomainAtoms: 2 })
+      .lowercase()
       .required(),
 
     hash: Joi.string()

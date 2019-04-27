@@ -7,14 +7,19 @@ export interface IJwtPayload {
   userId: string;
 }
 
-const sign = (payload: {}) => {
-  const secretKey = `${JWT_OPTIONS.secretOrKey}`;
+const secretKey = `${JWT_OPTIONS.secretOrKey}`;
 
+const sign = (payload: {}) => {
   return jwt.sign(payload, secretKey, {
     expiresIn: '30d',
   });
 };
 
+const verify = (token: string) => {
+  return jwt.verify(token, secretKey);
+};
+
 export const jwtUtil = {
   sign,
+  verify,
 };

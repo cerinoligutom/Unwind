@@ -16,7 +16,7 @@ const addNewMessage = (global: IGlobalState, { conversationRoomId, message }: IA
     const conversationRoom = conversationRooms.find(room => room.id === conversationRoomId);
 
     if (conversationRoom) {
-      conversationRoom.messages = [message, ...conversationRoom.messages];
+      conversationRoom.messages = [...conversationRoom.messages, message];
     }
   });
 };
@@ -38,7 +38,7 @@ const addOldMessages = (global: IGlobalState, payload: IAddOldMessagesPayload) =
         // Means this is the first time it's retrieving the conversations
         conversationRoom.messages = messages.reverse();
       } else {
-        conversationRoom.messages = [...conversationRoom.messages, ...messages.reverse()];
+        conversationRoom.messages = [...messages.reverse(), ...conversationRoom.messages];
       }
 
       conversationRoom.cursor = cursor;
@@ -52,7 +52,6 @@ export const messageReducer = (global: any, action: any) => {
   switch (action.type) {
     case ADD_NEW_MESSAGE:
       return addNewMessage(global, action.payload);
-      break;
     case ADD_OLD_MESSAGES:
       return addOldMessages(global, action.payload);
     default:
