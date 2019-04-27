@@ -26,9 +26,16 @@ export const JoinRoomButton = styled.button`
   margin: 0.25rem;
 
   color: white;
-  background: #4A4A53;
+  background-color: #4a4a53;
+
+  transition: background-color 0.25s, color 0.25s;
 
   :focus {
     outline: none;
+  }
+
+  :hover {
+    color: black;
+    background-color: white;
   }
 `;

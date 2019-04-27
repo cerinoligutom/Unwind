@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useGlobal } from 'reactn';
 import io from 'socket.io-client';
-import { ChatContainer } from './ChatPage.styles';
+import { ChatContainer, LoadingContainer } from './ChatPage.styles';
 import { ConversationListSidebar } from '../../components/ConversationListSidebar/ConversationListSidebar';
 import { ConversationParticipantsSidebar } from '../../components/ConversationParticipantsSidebar/ConversationParticipantsSidebar';
 import { Conversation } from '../../components/Conversation/Conversation';
@@ -14,12 +14,16 @@ import { conversationRoomService } from '../../services/conversation-room.servic
 import { localStorageService } from '../../services/local-storage.service';
 import { Message } from '../../models/Message';
 import { messageReducer, actions } from '../../reducers/message.reducer';
+import { Loading } from '../../components/Loading/Loading';
+import { RouterProps } from 'react-router';
 
-export const ChatPage = () => {
+interface IChatPageProps extends RouterProps {}
+
+export const ChatPage = (props: IChatPageProps) => {
   const socket = io('http://192.168.100.7:9200');
   const [user, setUser] = useGlobal<User>('user');
-  const [, setConversationRooms] = useGlobal<ConversationRoom[]>('conversationRooms');
-  const [, setActiveConversationRoomId] = useGlobal<string>('activeConversationRoomId');
+  const [rooms, setConversationRooms] = useGlobal<ConversationRoom[]>('conversationRooms');
+  const [activeRoomId, setActiveConversationRoomId] = useGlobal<string>('activeConversationRoomId');
   const dispatch = useGlobal(messageReducer);
 
   const connectToRoom = (roomId: string) => {
@@ -73,13 +77,21 @@ export const ChatPage = () => {
 
   return (
     <>
-      {user && <UserDrawer />}
-      <ConversationListSidebar connectToRoom={connectToRoom} />
-      <ChatContainer>
-        <Conversation disconnectFromRoom={disconnectFromRoom} />
-        <MessageInput />
-      </ChatContainer>
-      <ConversationParticipantsSidebar />
+      {user && rooms.length > 0 && activeRoomId ? (
+        <>
+          <UserDrawer history={props.history} />
+          <ConversationListSidebar connectToRoom={connectToRoom} />
+          <ChatContainer>
+            <Conversation disconnectFromRoom={disconnectFromRoom} />
+            <MessageInput />
+          </ChatContainer>
+          <ConversationParticipantsSidebar />
+        </>
+      ) : (
+        <LoadingContainer>
+          <Loading />
+        </LoadingContainer>
+      )}
     </>
   );
 };

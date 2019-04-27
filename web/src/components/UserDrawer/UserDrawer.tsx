@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGlobal } from 'reactn';
+import { useGlobal, setGlobal } from 'reactn';
 import {
   Container,
   ImageContainer,
@@ -22,6 +22,8 @@ import { TextField } from 'formik-material-ui';
 import { Button } from '@material-ui/core';
 import { userService } from '../../services/user.service';
 import toastr from 'toastr';
+import { localStorageService } from '../../services/local-storage.service';
+import { RouterProps } from 'react-router';
 
 const modalStyle: ReactModal.Styles = {
   content: {
@@ -42,8 +44,24 @@ const fieldStyle = {
   width: '350px',
 };
 
-export const UserDrawer = () => {
+interface IUserDrawerProps extends RouterProps {}
+
+export const UserDrawer = ({ history }: IUserDrawerProps) => {
   const [user] = useGlobal<User>('user');
+
+  const logout = () => {
+    localStorageService.clear();
+
+    setGlobal({
+      user: {},
+      conversationRooms: [],
+      activeConversationRoomId: '',
+    });
+
+    toastr.success('Successfully logged out.');
+
+    history.replace('/');
+  };
 
   const [showModal, hideModal] = useModal(() => {
     const [user, setUser] = useGlobal<User>('user');
@@ -164,7 +182,7 @@ export const UserDrawer = () => {
         <Action onClick={showModal}>
           <i className="far fa-edit" />
         </Action>
-        <Action>
+        <Action onClick={logout}>
           <i className="fas fa-sign-out-alt" />
         </Action>
       </ActionsDrawer>
