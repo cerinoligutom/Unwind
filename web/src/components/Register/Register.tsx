@@ -41,7 +41,7 @@ export const Register = ({ history }: IRegisterProps) => {
             })
             .catch((err: any) => {
               toastr.error(err.errors.map((x: any) => x.message).join('\n'));
-              console.log('error:', err);
+              console.error('error:', err);
             })
             .finally(() => {
               actions.setSubmitting(false);

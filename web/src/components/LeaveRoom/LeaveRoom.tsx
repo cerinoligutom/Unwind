@@ -41,7 +41,7 @@ export const LeaveRoom = ({ disconnectFromRoom }: ILeaveRoomProps) => {
         disconnectFromRoom(roomId);
         hideModal();
       }).catch(err => {
-        console.log('error:', err);
+        console.error('error:', err);
         toastr.error('Oops. Something went wrong.');
       });
     };

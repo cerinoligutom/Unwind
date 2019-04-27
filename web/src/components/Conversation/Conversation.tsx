@@ -10,6 +10,8 @@ import { Button } from '@material-ui/core';
 import { LeaveRoom } from '../LeaveRoom/LeaveRoom';
 import { CreateRoomInviteCode } from '../CreateRoomInviteCode/CreateRoomInviteCode';
 
+const UNWIND_DEFAULT_CHANNEL_ID = '11111111-1111-1111-1111-111111111111';
+
 interface IConversationProps {
   disconnectFromRoom(roomId: string): any;
 }
@@ -24,7 +26,6 @@ export const Conversation = ({ disconnectFromRoom }: IConversationProps) => {
   useEffect(() => {
     if (activeConversationRoomId && conversationRoom && !conversationRoom.cursor) {
       conversationRoomService.getPreviousMessages(activeConversationRoomId, '').then(data => {
-        console.log('data', data);
         dispatch(
           actions.addOldMessages({
             conversationRoomId: activeConversationRoomId,
@@ -47,10 +48,14 @@ export const Conversation = ({ disconnectFromRoom }: IConversationProps) => {
         <>
           <RoomDetails>
             <RoomName>{conversationRoom.name}</RoomName>
-            <RoomActions>
-              <CreateRoomInviteCode />
-              <LeaveRoom disconnectFromRoom={disconnectFromRoom} />
-            </RoomActions>
+            {conversationRoom.id !== UNWIND_DEFAULT_CHANNEL_ID && (
+              <>
+                <RoomActions>
+                  <CreateRoomInviteCode />
+                  <LeaveRoom disconnectFromRoom={disconnectFromRoom} />
+                </RoomActions>
+              </>
+            )}
           </RoomDetails>
           <ScrollableFeed forceScroll changeDetectionFilter={changeDetectionFilter}>
             {conversationRoom.messages &&
@@ -64,7 +69,6 @@ export const Conversation = ({ disconnectFromRoom }: IConversationProps) => {
                         messages[messages.length - index - 2].sender.id
                       : false;
                 } else if (messages.length > 1 && messages.length === index + 1) {
-                  console.log('test');
                   isConsecutive = messages[index].sender.id === messages[index - 1].sender.id;
                 }
 

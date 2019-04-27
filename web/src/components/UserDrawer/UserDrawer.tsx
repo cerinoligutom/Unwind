@@ -72,7 +72,7 @@ export const UserDrawer = () => {
               })
               .catch(err => {
                 toastr.error(err.errors.map((x: any) => x.message).join('\n'));
-                console.log('error:', err);
+                console.error('error:', err);
               })
               .finally(() => {
                 actions.setSubmitting(false);

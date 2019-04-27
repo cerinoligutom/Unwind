@@ -57,7 +57,7 @@ export const JoinRoom = ({ connectToRoom } :IJoinRoomProps) => {
                 }, 1000);
               })
               .catch((err) => {
-                console.log('error:', err);
+                console.error('error:', err);
                 toastr.error(err.errors.map((x: any) => x.message).join('\n'));
               })
               .finally(() => {

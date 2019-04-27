@@ -32,7 +32,7 @@ export const RoomName = styled.div`
   text-overflow: ellipsis;
 
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 `;
 
 export const RoomActions = styled.div`

@@ -41,8 +41,6 @@ export const CreateRoomInviteCode = () => {
     };
 
     useEffect(() => {
-      console.log('effect trigger');
-
       if (!code) {
         conversationRoomService
           .generateInvitationKey(roomId)
@@ -50,7 +48,7 @@ export const CreateRoomInviteCode = () => {
             setCode(invitationKey);
           })
           .catch((err: any) => {
-            console.log('error:', err);
+            console.error('error:', err);
             toastr.error('Oops. Something went wrong.');
             hideModal();
           })
@@ -101,17 +99,6 @@ export const CreateRoomInviteCode = () => {
       </ReactModal>
     );
   });
-
-  // const handleButtonClick = () => {
-  //   console.log('clicked');
-
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //     console.log('isLoading:', isLoading);
-  //   }, 1000)
-
-  //   showModal();
-  // };
 
   return <Button onClick={showModal}>Create invite code</Button>;
 };

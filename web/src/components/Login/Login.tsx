@@ -34,7 +34,7 @@ export const Login = ({ history }: ILoginProps) => {
             })
             .catch(err => {
               toastr.error(err.message);
-              console.log('error:', err);
+              console.error('error:', err);
             })
             .finally(() => {
               actions.setSubmitting(false);
