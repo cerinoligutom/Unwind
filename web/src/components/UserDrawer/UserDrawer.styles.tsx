@@ -31,7 +31,7 @@ export const Action = styled.button`
 
   background-color: #4A4A53;
   color: white;
-  transition: background-color 0.5s, color 0.5s;
+  transition: background-color 0.25s, color 0.25s;
 
   :hover {
     background-color: white;

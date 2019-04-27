@@ -1,12 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  margin: 0 0.5rem 0.25rem;
-`;
-
 export const ImageContainer = styled.div`
   display: flex;
   align-items: center;
@@ -62,7 +55,7 @@ export const ConsecutiveMessageDate = styled.div`
   margin-right: 0.5rem;
   font-size: 0.75rem;
 
-  transition: opacity 0.5s;
+  transition: opacity 0.25s;
 `;
 
 export const ConsecutiveMessage = styled.div`
@@ -70,10 +63,25 @@ export const ConsecutiveMessage = styled.div`
   flex-direction: row;
   flex-grow: 1;
   margin-bottom: 0.25rem;
+`;
+
+export const Date = styled.div``;
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.25rem;
+  border-radius: 0.25rem;
+
+  transition: background-color 0.25s;
+
+  :hover {
+    background-color: #26262b;
+  }
 
   :hover ${ConsecutiveMessageDate} {
     opacity: 1;
   }
 `;
-
-export const Date = styled.div``;
