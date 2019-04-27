@@ -16,6 +16,12 @@ export const Container = styled.div`
   background: #26262b;
 `;
 
+export const RoomActions = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+`;
+
 export const ConversationListContainer = styled.div`
   display: flex;
   flex-direction: column;

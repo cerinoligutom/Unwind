@@ -13,6 +13,7 @@ import { initRoutes } from './routes';
 import knex from './db_pg/knex-config';
 import { customErrorMiddleware } from './middlewares/error.middleware';
 import helmet from 'helmet';
+import './db_redis';
 
 import { app, server } from './socket-io';
 

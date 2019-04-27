@@ -23,10 +23,20 @@ const leaveConversationRoom = async (userId: string, roomId: string) => {
   return apiService.del(`/conversationRooms/${roomId}/users/${userId}`);
 };
 
+const generateInvitationKey = async (roomId: string) => {
+  return apiService.post<{ invitationKey: string }>(`/conversationRooms/${roomId}/invitations`);
+};
+
+const joinRoomByInvitationKey = async (invitationKey: string) => {
+  return apiService.put<ConversationRoom>(`/conversationRooms/invitations/${invitationKey}`);
+};
+
 export const conversationRoomService = {
   getCurrentUserConversationRooms,
   getPreviousMessages,
   create,
   joinConversationRoom,
   leaveConversationRoom,
+  generateInvitationKey,
+  joinRoomByInvitationKey,
 };

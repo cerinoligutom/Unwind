@@ -1,8 +1,9 @@
 import React from 'react';
 import { useGlobal } from 'reactn';
-import { Container, ConversationListContainer } from './ConversationListSidebar.styles';
+import { Container, ConversationListContainer, RoomActions } from './ConversationListSidebar.styles';
 import { ConversationRoom } from '../../models/ConversationRoom';
 import { CreateRoom } from '../CreateRoom/CreateRoom';
+import { JoinRoom } from '../JoinRoom/JoinRoom';
 import { ConversationListItem } from '../ConversationListItem/ConversationListItem';
 
 interface IConversationListSidebarProps {
@@ -14,7 +15,11 @@ export const ConversationListSidebar = ({ connectToRoom }: IConversationListSide
 
   return (
     <Container>
-      <CreateRoom connectToRoom={connectToRoom} />
+      <RoomActions>
+        <CreateRoom connectToRoom={connectToRoom} />
+        <JoinRoom connectToRoom={connectToRoom} />
+      </RoomActions>
+      
       <ConversationListContainer>
         {conversationRooms.length > 0 &&
           conversationRooms.map(room => <ConversationListItem key={room.id} {...room} />)}

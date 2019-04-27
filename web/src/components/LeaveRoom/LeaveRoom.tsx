@@ -24,15 +24,17 @@ const modalStyle: ReactModal.Styles = {
 };
 
 interface ILeaveRoomProps {
-  roomId: string;
   disconnectFromRoom(roomId: string): any;
 }
 
-export const LeaveRoom = ({ roomId, disconnectFromRoom }: ILeaveRoomProps) => {
+export const LeaveRoom = ({ disconnectFromRoom }: ILeaveRoomProps) => {
   const [user] = useGlobal<User>('user');
+
   const dispatch = useGlobal(conversationRoomReducer);
 
   const [showModal, hideModal] = useModal(() => {
+    const [roomId] = useGlobal<string>('activeConversationRoomId');
+
     const handleLeaveRoomClick = () => {
       conversationRoomService.leaveConversationRoom(user.id, roomId).then(() => {
         dispatch(actions.leaveRoom({ conversationRoomId: roomId }));

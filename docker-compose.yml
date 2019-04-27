@@ -7,6 +7,7 @@ services:
     restart: always
     environment:
       - JWT_SECRET="${JWT_SECRET}"
+      - REDIS_URL=redis://unwind_redis
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules # https://stackoverflow.com/a/32785014
@@ -63,15 +64,18 @@ services:
       ADMINER_DESIGN: 'price'
 
   redis:
-    image: redis:alpine
+    image: redis:5.0.4-alpine
     container_name: unwind_redis
+    restart: always
     ports: ['6379']
     networks:
       - backend
+    volumes:
+      - redis-data:/data
 
 volumes:
-  postgres-data:
-    external: true # https://github.com/docker/for-win/issues/445#issuecomment-405185621
+  postgres-data: # https://github.com/docker/for-win/issues/445#issuecomment-405185621
+  redis-data:
 
 networks:
   backend:

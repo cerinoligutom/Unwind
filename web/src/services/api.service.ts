@@ -38,7 +38,7 @@ const put = async <T>(url: string, data?: { [key: string]: any }) => {
     .catch(err => Promise.reject(err.response.data));
 };
 
-const post = async <T>(url: string, data: { [key: string]: any }) => {
+const post = async <T>(url: string, data?: { [key: string]: any }) => {
   return api
     .post<T>(url, data, {
       headers: {

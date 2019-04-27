@@ -14,4 +14,7 @@ router.delete(
   asyncHandler(conversationRoomController.removeUserFromConversationRoom),
 );
 
+router.put('/invitations/:key', asyncHandler(conversationRoomController.joinByInvitationKey));
+router.post('/:conversationRoomId/invitations/', asyncHandler(conversationRoomController.generateInvitationKey));
+
 export const conversationRoomsRouter = router;

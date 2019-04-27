@@ -8,6 +8,8 @@ export const Container = styled.div`
   margin: 0 0.25rem 0.5rem;
   border-radius: 0.25rem;
 
+  transition: background-color 0.25s;
+
   :hover {
     background-color: #4a4a53;
     cursor: pointer;

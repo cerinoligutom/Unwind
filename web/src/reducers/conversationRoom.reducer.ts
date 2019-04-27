@@ -20,9 +20,10 @@ interface ILeaveRoomPayload {
 }
 
 const leaveRoom = (global: IGlobalState, { conversationRoomId }: ILeaveRoomPayload) => {
-  return produce(global, ({ conversationRooms }: IGlobalState) => {
-    const index = conversationRooms.findIndex(x => x.id === conversationRoomId);
-    conversationRooms.splice(index, 1);
+  return produce(global, (globalState: IGlobalState) => {
+    const index = globalState.conversationRooms.findIndex(x => x.id === conversationRoomId);
+    globalState.conversationRooms.splice(index, 1);
+    globalState.activeConversationRoomId = globalState.conversationRooms[0].id;
   });
 };
 

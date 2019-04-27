@@ -10,6 +10,8 @@ export const Container = styled.div`
 
   background-color: ${(props: { active?: boolean }) => (props.active ? '#4A4A53' : '#26262b')};
 
+  transition: background-color 0.25s;
+
   :hover {
     background-color: #4a4a53;
     cursor: pointer;

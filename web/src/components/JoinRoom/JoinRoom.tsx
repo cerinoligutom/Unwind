@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGlobal } from 'reactn';
-import { Container, CreateRoomButton, FormContainer, ActionsContainer } from './CreateRoom.styles';
+import { Container, JoinRoomButton, FormContainer, ActionsContainer } from './JoinRoom.styles';
 import { Formik, FormikActions, FormikProps, Form, Field, ErrorMessage } from 'formik';
 import toastr from 'toastr';
 import ReactModal from 'react-modal';
@@ -24,30 +24,30 @@ const modalStyle: ReactModal.Styles = {
   },
 };
 
-interface ICreateRoomFormValues {
-  name: string;
+interface IJoinRoomFormValues {
+  invitationCode: string;
 }
 
-interface ICreateRoomProps {
+interface IJoinRoomProps {
   connectToRoom(roomId: string): any;
 }
 
-export const CreateRoom = ({ connectToRoom } :ICreateRoomProps) => {
+export const JoinRoom = ({ connectToRoom } :IJoinRoomProps) => {
   const [, setActiveConversationRoomId] = useGlobal<string>('activeConversationRoomId');
   const dispatch = useGlobal(conversationRoomReducer);
   const [showModal, hideModal] = useModal(() => {
     return (
       <ReactModal isOpen ariaHideApp={false} style={modalStyle}>
-        <h4>Create a new room</h4>
+        <h4>Join a room by invitation key</h4>
         <Formik
-          initialValues={{ name: '' }}
-          onSubmit={(values: ICreateRoomFormValues, actions: FormikActions<ICreateRoomFormValues>) => {
+          initialValues={{ invitationCode: '' }}
+          onSubmit={(values: IJoinRoomFormValues, actions: FormikActions<IJoinRoomFormValues>) => {
             actions.setSubmitting(true);
 
             conversationRoomService
-              .create(values.name)
+              .joinRoomByInvitationKey(values.invitationCode)
               .then(room => {
-                toastr.success(`Room ${values.name} created.`);
+                toastr.success(`Joined ${room.name}.`);
                 dispatch(roomReducerActions.joinRoom({ conversationRoom: room }))
                 connectToRoom(room.id);
 
@@ -64,17 +64,17 @@ export const CreateRoom = ({ connectToRoom } :ICreateRoomProps) => {
                 actions.setSubmitting(false);
               });
           }}
-          render={({ isSubmitting }: FormikProps<ICreateRoomFormValues>) => (
+          render={({ isSubmitting }: FormikProps<IJoinRoomFormValues>) => (
             <Form>
               <FormContainer>
-                <Field style={{ margin: '12px 0 24px' }} required min="3" type="text" name="name" placeholder="Conversation room name" component={TextField} />
-                <ErrorMessage name="name" component="div" />
+                <Field style={{ margin: '12px 0 24px' }} required min="3" type="text" name="invitationCode" placeholder="Invitation code to room" component={TextField} />
+                <ErrorMessage name="invitationCode" component="div" />
 
                 <ActionsContainer>
                   <Button onClick={hideModal}>Close</Button>
 
                   <Button type="submit" disabled={isSubmitting}>
-                    Create
+                    Join
                   </Button>
                 </ActionsContainer>
               </FormContainer>
@@ -86,6 +86,6 @@ export const CreateRoom = ({ connectToRoom } :ICreateRoomProps) => {
   });
 
   return (
-      <CreateRoomButton onClick={showModal}>Create room</CreateRoomButton>
+      <JoinRoomButton onClick={showModal}>Join room</JoinRoomButton>
   );
 };

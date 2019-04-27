@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
-import { conversationRoomService } from '@app/services';
+import { conversationRoomService, roomInviteService } from '@app/services';
 import { createConversationRoomForm, updateConversationRoomForm } from './conversation-room.validator';
+import { IFormFieldValidationError } from '@app/utils';
 
 const getById: RequestHandler = async (req, res) => {
   const { id } = req.params;
@@ -19,7 +20,7 @@ const create: RequestHandler = async (req, res) => {
   }
 
   const conversationRoom = await conversationRoomService.create(form);
-  
+
   // Add the user who created the room to the room
   await conversationRoomService.addUserToConversationRoom(req.user.id, conversationRoom.id);
 
@@ -55,10 +56,76 @@ const removeUserFromConversationRoom: RequestHandler = async (req, res) => {
   res.send({ success });
 };
 
+const joinByInvitationKey: RequestHandler = async (req, res) => {
+  const { key } = req.params;
+
+  const roomId = await roomInviteService.getRoomIdFromInvitationKey(key);
+
+  if (!roomId) {
+    const error: IFormFieldValidationError = {
+      key: 'key',
+      message: 'The invitation code has expired.',
+    };
+    res.status(404).send({
+      errors: [error],
+    });
+    return;
+  }
+
+  const room = await conversationRoomService.getById(roomId);
+
+  if (!room) {
+    const error: IFormFieldValidationError = {
+      key: '',
+      message: `The room you're trying to join does not exist anymore.`,
+    };
+    res.status(404).send({
+      errors: [error],
+    });
+    return;
+  }
+
+  try {
+    await conversationRoomService.addUserToConversationRoom(req.user.id, room.id);
+    res.send(room);
+  } catch {
+    const error: IFormFieldValidationError = {
+      key: '',
+      message: `You're already in the room ${room.name}.`,
+    };
+    res.status(400).send({
+      errors: [error],
+    });
+  }
+};
+
+const generateInvitationKey: RequestHandler = async (req, res) => {
+  const { conversationRoomId } = req.params;
+
+  const room = await conversationRoomService.getById(conversationRoomId);
+
+  if (!room) {
+    const error: IFormFieldValidationError = {
+      key: '',
+      message: `The room does not exist.`,
+    };
+    res.status(404).send({
+      errors: [error],
+    });
+    return;
+  }
+
+  const invitationKey = await roomInviteService.createInvitationKey(room.id);
+
+  res.send({ invitationKey });
+};
+
 export const conversationRoomController = {
   getById,
   create,
   update,
   addUserToConversationRoom,
   removeUserFromConversationRoom,
+  joinByInvitationKey,
+  generateInvitationKey,
 };

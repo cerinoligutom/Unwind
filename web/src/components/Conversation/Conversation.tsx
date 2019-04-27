@@ -8,6 +8,7 @@ import { ConversationMessage } from '../ConversationMessage/ConversationMessage'
 import ScrollableFeed from 'react-scrollable-feed';
 import { Button } from '@material-ui/core';
 import { LeaveRoom } from '../LeaveRoom/LeaveRoom';
+import { CreateRoomInviteCode } from '../CreateRoomInviteCode/CreateRoomInviteCode';
 
 interface IConversationProps {
   disconnectFromRoom(roomId: string): any;
@@ -47,8 +48,8 @@ export const Conversation = ({ disconnectFromRoom }: IConversationProps) => {
           <RoomDetails>
             <RoomName>{conversationRoom.name}</RoomName>
             <RoomActions>
-              <Button>Create invite link</Button>
-              <LeaveRoom disconnectFromRoom={disconnectFromRoom} roomId={conversationRoom.id} />
+              <CreateRoomInviteCode />
+              <LeaveRoom disconnectFromRoom={disconnectFromRoom} />
             </RoomActions>
           </RoomDetails>
           <ScrollableFeed forceScroll changeDetectionFilter={changeDetectionFilter}>

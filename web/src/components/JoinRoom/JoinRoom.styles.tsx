@@ -18,7 +18,7 @@ export const Container = styled.div`
   background: #26262b;
 `;
 
-export const CreateRoomButton = styled.button`
+export const JoinRoomButton = styled.button`
   border: 1px solid white;
   border-radius: 32px;
   padding: 0.5rem 0;
