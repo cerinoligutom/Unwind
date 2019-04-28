@@ -3,16 +3,16 @@ import { localStorageService } from './local-storage.service';
 
 const api = axios.create({
   // baseURL: process.env.REACT_APP_API_URL,
-  baseURL: 'http://192.168.100.7:9200/api/v1'
+  baseURL: 'http://192.168.100.7:9200/api/v1',
 });
 
 const setToken = (token: string) => {
   localStorageService.setItem('token', token);
 };
 
-const getToken = () => {
+const getToken = (withBearer = true) => {
   const token = localStorageService.getItem<string>('token');
-  return `Bearer ${token}`;
+  return withBearer ? `Bearer ${token}` : `${token}`;
 };
 
 const get = async <T>(url: string, urlParams?: { [key: string]: any }) => {

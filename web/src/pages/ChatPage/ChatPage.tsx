@@ -11,12 +11,12 @@ import { authService } from '../../services/auth.service';
 import { User } from '../../models/User';
 import { ConversationRoom } from '../../models/ConversationRoom';
 import { conversationRoomService } from '../../services/conversation-room.service';
-import { localStorageService } from '../../services/local-storage.service';
 import { Message } from '../../models/Message';
 import { messageReducer, actions } from '../../reducers/message.reducer';
 import { Loading } from '../../components/Loading/Loading';
 import { RouterProps } from 'react-router';
 import toastr from 'toastr';
+import { apiService } from '../../services/api.service';
 
 const socket = io('http://192.168.100.7:9200', {
   autoConnect: false,
@@ -40,7 +40,7 @@ export const ChatPage = (props: IChatPageProps) => {
 
   useEffect(() => {
     socket.io.opts.query = {
-      token: localStorageService.getItem<string>('token')
+      token: apiService.getToken(false),
     };
     socket.open();
 

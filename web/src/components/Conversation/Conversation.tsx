@@ -6,7 +6,6 @@ import { conversationRoomService } from '../../services/conversation-room.servic
 import { messageReducer, actions } from '../../reducers/message.reducer';
 import { ConversationMessage } from '../ConversationMessage/ConversationMessage';
 import ScrollableFeed from 'react-scrollable-feed';
-import { Button } from '@material-ui/core';
 import { LeaveRoom } from '../LeaveRoom/LeaveRoom';
 import { CreateRoomInviteCode } from '../CreateRoomInviteCode/CreateRoomInviteCode';
 
