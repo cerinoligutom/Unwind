@@ -19,7 +19,6 @@ import { RouterProps } from 'react-router';
 import toastr from 'toastr';
 
 const socket = io('http://192.168.100.7:9200', {
-  query: { token: localStorageService.getItem<string>('token') },
   autoConnect: false,
 });
 
@@ -40,6 +39,9 @@ export const ChatPage = (props: IChatPageProps) => {
   };
 
   useEffect(() => {
+    socket.io.opts.query = {
+      token: localStorageService.getItem<string>('token')
+    };
     socket.open();
 
     socket.on('connect_error', () => {
