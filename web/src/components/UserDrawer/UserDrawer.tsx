@@ -22,7 +22,7 @@ import { TextField } from 'formik-material-ui';
 import { Button } from '@material-ui/core';
 import { userService } from '../../services/user.service';
 import toastr from 'toastr';
-import { localStorageService } from '../../services/local-storage.service';
+import { authService } from '../../services/auth.service';
 import { RouterProps } from 'react-router';
 
 const modalStyle: ReactModal.Styles = {
@@ -50,13 +50,7 @@ export const UserDrawer = ({ history }: IUserDrawerProps) => {
   const [user] = useGlobal<User>('user');
 
   const logout = () => {
-    localStorageService.clear();
-
-    setGlobal({
-      user: {},
-      conversationRooms: [],
-      activeConversationRoomId: '',
-    });
+    authService.logout();
 
     toastr.success('Successfully logged out.');
 

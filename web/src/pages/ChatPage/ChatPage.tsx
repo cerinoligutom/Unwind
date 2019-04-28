@@ -16,11 +16,16 @@ import { Message } from '../../models/Message';
 import { messageReducer, actions } from '../../reducers/message.reducer';
 import { Loading } from '../../components/Loading/Loading';
 import { RouterProps } from 'react-router';
+import toastr from 'toastr';
+
+const socket = io('http://192.168.100.7:9200', {
+  query: { token: localStorageService.getItem<string>('token') },
+  autoConnect: false,
+});
 
 interface IChatPageProps extends RouterProps {}
 
 export const ChatPage = (props: IChatPageProps) => {
-  const socket = io('http://192.168.100.7:9200');
   const [user, setUser] = useGlobal<User>('user');
   const [rooms, setConversationRooms] = useGlobal<ConversationRoom[]>('conversationRooms');
   const [activeRoomId, setActiveConversationRoomId] = useGlobal<string>('activeConversationRoomId');
@@ -35,21 +40,40 @@ export const ChatPage = (props: IChatPageProps) => {
   };
 
   useEffect(() => {
-    authService.getCurrentUser().then(user => {
-      setUser(user);
+    socket.open();
+
+    socket.on('connect_error', () => {
+      const message = 'Connection error.';
+      console.info(message);
+      toastr.error(message);
     });
 
-    conversationRoomService.getCurrentUserConversationRooms().then(conversationRooms => {
-      setConversationRooms(conversationRooms);
-      setActiveConversationRoomId(conversationRooms[0].id);
+    socket.on('connect_timeout', () => {
+      const message = 'Connection timeout.';
+      console.info(message);
+      toastr.error(message);
+    });
+
+    socket.on('reconnect', () => {
+      const message = 'Reconnected';
+      console.info(message);
+      toastr.success(message);
+    });
+
+    socket.on('reconnect_attempt', () => {
+      const message = 'Reconnecting...';
+      console.info(message);
+      toastr.info(message);
+    });
+
+    socket.on('reconnect_error', () => {
+      const message = 'Failed to reconnect.';
+      console.info(message);
+      toastr.info(message);
     });
 
     socket.on('connect', () => {
       console.info('Authenticating...');
-
-      socket.emit('authentication', {
-        token: localStorageService.getItem<string>('token'),
-      });
 
       socket.on('authenticated', () => {
         console.info('Authenticated!');
@@ -65,13 +89,32 @@ export const ChatPage = (props: IChatPageProps) => {
           );
         });
       });
-      socket.on('unauthorized', (err: Error) => {
-        console.log('There was an error with the authentication:', err.message);
-      });
+    });
+
+    socket.on('error', (err: any) => {
+      if (err === 'Authentication error') {
+        console.log('There was an error with the authentication:', err);
+        toastr.error('Something went wrong with the authentication. Please log in again.');
+
+        socket.close();
+        props.history.replace('/');
+        authService.logout();
+      } else {
+        console.error('unknown socket error:', err);
+      }
     });
 
     socket.on('disconnect', () => {
-      console.info('Got disconnected');
+      toastr.error('Disconnected.');
+    });
+
+    authService.getCurrentUser().then(user => {
+      setUser(user);
+    });
+
+    conversationRoomService.getCurrentUserConversationRooms().then(conversationRooms => {
+      setConversationRooms(conversationRooms);
+      setActiveConversationRoomId(conversationRooms[0].id);
     });
   }, []);
 

@@ -8,32 +8,24 @@ import { env } from './config/environment';
 export const app = express();
 export const server = require('http').Server(app);
 const io = createSocketIO(server);
-require('socketio-auth')(io, {
-  // tslint:disable-next-line: no-any
-  authenticate: (socket: any, data: any, callback: any) => {
-    const { token } = data;
-    let isSuccess: boolean;
+
+io.use((socket, next) => {
+  if (socket.handshake.query && socket.handshake.query.token) {
+    const { token } = socket.handshake.query;
 
     try {
       const { userId } = jwtUtil.verify(token) as IJwtPayload;
 
-      socket.client.userId = userId;
+      // tslint:disable-next-line: no-any
+      (socket.client as any).userId = userId;
 
-      isSuccess = true;
+      return next();
     } catch (err) {
-      isSuccess = false;
-      callback(err, isSuccess);
-      return;
+      return next(new Error('Authentication error'));
     }
+  }
 
-    callback(null, isSuccess);
-  },
-  // tslint:disable-next-line: no-any
-  postAuthenticate: (socket: any, data: any) => {
-    const { token } = data;
-    const { userId } = jwtUtil.verify(token) as IJwtPayload;
-    socket.client.userId = userId;
-  },
+  return next(new Error('No token provided'));
 });
 
 // tslint:disable-next-line: no-any
@@ -43,6 +35,8 @@ const getUserIdFromSocket = (socket: any) => {
 
 io.on('connection', socket => {
   console.info(`${socket.id} - Connected`);
+
+  socket.emit('authenticated');
 
   socket.on('Connect to rooms', async () => {
     const userId = getUserIdFromSocket(socket);
