@@ -12,7 +12,7 @@ const setToken = (token: string) => {
 
 const getToken = (withBearer = true) => {
   const token = localStorageService.getItem<string>('token');
-  return withBearer ? `Bearer ${token}` : `${token}`;
+  return withBearer ? `Bearer ${token}` : token;
 };
 
 const get = async <T>(url: string, urlParams?: { [key: string]: any }) => {

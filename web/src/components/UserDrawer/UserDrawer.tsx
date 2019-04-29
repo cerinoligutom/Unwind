@@ -6,8 +6,6 @@ import {
   UserDetails,
   Username,
   Email,
-  FullName,
-  Logout,
   ActionsDrawer,
   Action,
   FormContainer,
@@ -27,7 +25,7 @@ import { RouterProps } from 'react-router';
 
 const modalStyle: ReactModal.Styles = {
   content: {
-    height: '350px',
+    height: '175px',
     width: '400px',
     margin: 'auto',
     display: 'flex',
@@ -65,9 +63,6 @@ export const UserDrawer = ({ history }: IUserDrawerProps) => {
         <h4>Edit profile</h4>
         <Formik
           initialValues={{
-            firstName: user.firstName,
-            middleName: user.middleName,
-            lastName: user.lastName,
             avatarUrl: user.avatarUrl,
           }}
           onSubmit={(values: IEditProfileForm, actions: FormikActions<IEditProfileForm>) => {
@@ -93,36 +88,6 @@ export const UserDrawer = ({ history }: IUserDrawerProps) => {
           render={({ isSubmitting }: FormikProps<IEditProfileForm>) => (
             <Form>
               <FormContainer>
-                <Field
-                  style={fieldStyle}
-                  required
-                  type="text"
-                  name="firstName"
-                  placeholder="First name"
-                  component={TextField}
-                />
-                <ErrorMessage name="firstName" component="div" />
-
-                <Field
-                  style={fieldStyle}
-                  required
-                  type="text"
-                  name="middleName"
-                  placeholder="Middle name"
-                  component={TextField}
-                />
-                <ErrorMessage name="middleName" component="div" />
-
-                <Field
-                  style={fieldStyle}
-                  required
-                  type="text"
-                  name="lastName"
-                  placeholder="Last name"
-                  component={TextField}
-                />
-                <ErrorMessage name="lastName" component="div" />
-
                 <Field
                   style={fieldStyle}
                   required
@@ -168,7 +133,6 @@ export const UserDrawer = ({ history }: IUserDrawerProps) => {
           <UserDetails>
             <Username>{user.username}</Username>
             <Email>{user.email}</Email>
-            <FullName>{`${user.firstName} ${user.lastName}`}</FullName>
           </UserDetails>
         </>
       )}

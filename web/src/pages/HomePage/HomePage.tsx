@@ -9,6 +9,8 @@ interface IHomePageProps extends RouterProps {}
 export const HomePage = (props: IHomePageProps) => {
   useEffect(() => {
     if (apiService.getToken(false)) {
+      console.log('token:', apiService.getToken(false));
+      console.log('fired');
       props.history.replace('/chat');
     }
   }, []);

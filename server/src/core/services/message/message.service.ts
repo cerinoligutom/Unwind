@@ -15,7 +15,7 @@ const getById = async (id: string) => {
 
 const getByPage = async (
   cursor: string = '',
-  pageSize: number = 25,
+  pageSize: number = 50,
   filters: IGetByPageFilters,
 ): Promise<ICursorResult<Message>> => {
   const query = Message.query()

@@ -21,7 +21,7 @@ export const ImageContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  font-size: 30px;
+  font-size: 20px;
   text-transform: capitalize;
 
   border-radius: 50%;
@@ -29,10 +29,10 @@ export const ImageContainer = styled.div`
 
   margin-right: 0.5rem;
 
-  width: 50px;
-  min-width: 50px;
-  height: 50px;
-  min-height: 50px;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
 
   overflow: hidden;
 `;
@@ -40,6 +40,7 @@ export const ImageContainer = styled.div`
 export const ParticipantDetails = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
   flex-grow: 1;
 
@@ -47,12 +48,6 @@ export const ParticipantDetails = styled.div`
 `;
 
 export const ParticipantUsername = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-export const ParticipantName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

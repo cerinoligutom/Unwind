@@ -44,7 +44,7 @@ export const Container = styled.div`
   flex-direction: row;
   overflow: hidden;
 
-  height: 12vh;
+  height: 10vh;
   width: 300px;
 
   position: fixed;
@@ -112,12 +112,6 @@ export const Username = styled.div`
 `;
 
 export const Email = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-export const FullName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -27,20 +27,6 @@ export class User extends BaseModel {
       .uuid()
       .required(),
 
-    firstName: Joi.string()
-      .label('First Name')
-      .min(1)
-      .required(),
-
-    middleName: Joi.string()
-      .label('Middle Name')
-      .allow('', null),
-
-    lastName: Joi.string()
-      .label('Last Name')
-      .min(1)
-      .required(),
-
     username: Joi.string()
       .label('Username')
       .regex(/^\S+$/)
@@ -55,7 +41,8 @@ export class User extends BaseModel {
 
     bio: Joi.string()
       .label('Bio Description')
-      .allow('', null),
+      .allow('', null)
+      .max(256),
 
     email: Joi.string()
       .label('Email')
@@ -75,9 +62,6 @@ export class User extends BaseModel {
     return data;
   }
 
-  firstName!: string;
-  middleName?: string;
-  lastName!: string;
   username!: string;
 
   avatarUrl?: string;

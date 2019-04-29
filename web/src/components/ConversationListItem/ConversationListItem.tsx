@@ -13,7 +13,7 @@ export const ConversationListItem = ({ id, name, messages }: ConversationRoom) =
         <RoomName>{name}</RoomName>
         {messages.length > 0 && (
           <LatestMessage>
-            {messages[0].sender.firstName}: {messages[0].text}
+            {messages[0].sender.username}: {messages[0].text}
           </LatestMessage>
         )}
       </RoomDetails>

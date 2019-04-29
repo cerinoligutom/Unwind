@@ -6,7 +6,7 @@ const getByPage: RequestHandler = async (req, res) => {
   let { cursor, pageSize } = req.query;
   const { conversationRoomId } = req.params;
   cursor = cursor ? cursor : '';
-  pageSize = pageSize ? pageSize : 25;
+  pageSize = pageSize ? pageSize : 50;
 
   const messages = await messageService.getByPage(cursor, pageSize, { conversationRoomId });
   res.send(messages);

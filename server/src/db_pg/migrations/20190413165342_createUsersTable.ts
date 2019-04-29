@@ -15,12 +15,9 @@ export async function up(knex: Knex): Promise<any> {
         t.uuid('id')
           .primary()
           .defaultTo(knex.raw('uuid_generate_v4()'));
-        t.string('firstName').notNullable();
-        t.string('middleName');
-        t.string('lastName').notNullable();
         t.string('username').unique().notNullable();
         t.string('avatarUrl');
-        t.text('bio');
+        t.string('bio', 256);
         t.string('email').unique().notNullable();
         t.string('hash').notNullable();
         t.string('salt').notNullable();

@@ -9,9 +9,6 @@ import { Button } from '@material-ui/core';
 import { Fields, Container, Actions } from './Register.styles';
 
 const formInitialValues: IRegisterForm = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
   username: '',
   email: '',
   hash: '',
@@ -51,35 +48,6 @@ export const Register = ({ history }: IRegisterProps) => {
           <Form>
             <Container>
               <Fields>
-                <Field
-                  style={fieldStyle}
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  required
-                  component={TextField}
-                />
-                <ErrorMessage name="firstName" component="div" />
-
-                <Field
-                  style={fieldStyle}
-                  type="text"
-                  name="middleName"
-                  placeholder="Middle Name"
-                  component={TextField}
-                />
-                <ErrorMessage name="middleName" component="div" />
-
-                <Field
-                  style={fieldStyle}
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  required
-                  component={TextField}
-                />
-                <ErrorMessage name="lastName" component="div" />
-
                 <Field
                   style={fieldStyle}
                   type="text"
