@@ -24,6 +24,7 @@ A pet project of mine for learning React with Hooks + Socket.io
 - Socket.io
 - PostgreSQL
 - Redis
+- Docker
 
 # Plans for this pet project
 
