@@ -47,7 +47,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: unwind
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - unwind-postgres-data:/var/lib/postgresql/data
     networks:
       - backend
 
@@ -71,12 +71,12 @@ services:
     networks:
       - backend
     volumes:
-      - ./redis-data:/data
+      - unwind-redis-data:/data
 
 volumes:
-  postgres-data: 
+  unwind-postgres-data: 
     external: true # https://github.com/docker/for-win/issues/445#issuecomment-405185621
-  redis-data:
+  unwind-redis-data:
     external: true
 
 networks:
