@@ -118,6 +118,10 @@ export const ChatPage = (props: IChatPageProps) => {
       setConversationRooms(conversationRooms);
       setActiveConversationRoomId(conversationRooms[0].id);
     });
+
+    return () => {
+      socket.close();
+    };
   }, []);
 
   return (
